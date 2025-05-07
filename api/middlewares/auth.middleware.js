@@ -15,7 +15,6 @@ function authenticateToken(req, res, next) {
 
 module.exports = authenticateToken;
 */
-
 // api/middlewares/auth.middleware.js
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
