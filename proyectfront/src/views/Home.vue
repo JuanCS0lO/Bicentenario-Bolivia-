@@ -36,5 +36,5 @@ onMounted(() => {
   </div>
 </template>
 <style scoped>
-.carousel img { max-height:400px; object-fit:cover; }
+.carousel img { max-height:400px; object-fit:fill; }
 </style>
