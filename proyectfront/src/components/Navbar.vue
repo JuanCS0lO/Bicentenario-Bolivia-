@@ -4,7 +4,7 @@
         <router-link class="navbar-brand" to="/">Bicentenario Bolivia</router-link>
         <div class="d-flex">
           <template v-if="!auth.token">
-            <router-link class="btn btn-outline-primary me-2" to="/login">Login</router-link>
+            <router-link class="btn btn-outline-primary login" to="/login">Login</router-link>
             <router-link class="btn btn-success" to="/register">Register</router-link>
           </template>
           <template v-else>
@@ -28,7 +28,7 @@
     router.push('/login')
   }
   </script>
-  <style scoped>
+  <style>
   .my-custom-btn {
   text-align: center;
   color: #fafafa;
@@ -43,6 +43,16 @@
 .my-custom-btn:hover {
   background-color: #670000;
   color: white;
+}
+.login {
+  background-color: #e3e34d;
+  color: white;
+  border-color: #e3e34d;
+}
+.login:hover {
+  background-color: #e3d14d;
+  color: white;
+  border-color: #e3e34d;
 }
 
 </style>
