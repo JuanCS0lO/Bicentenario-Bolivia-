@@ -15,7 +15,7 @@ const routes = [
   { path: '/personajes', name: 'Personajes', component: PersonajesView, meta: { requiresAuth: true } },
   { path: '/ciudades', name: 'Ciudades', component: CiudadesView, meta: { requiresAuth: true } },
   { path: '/hechos', name: 'Hechos', component: HechosView, meta: { requiresAuth: true } },
-  { path: '/about', name: 'About', component: AboutView }
+  { path: '/aboutview', name: 'About', component: AboutView }
 ];
 
 const router = createRouter({ history: createWebHistory(), routes });

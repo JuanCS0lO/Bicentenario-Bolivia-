@@ -1,0 +1,158 @@
+/*fila flexible div*/
+.flex-container {
+  display: flex;
+  flex-direction: row;
+}
+
+/*columna flexible izquierda Tamaño Caja del MAPA*/
+.flex-left {
+  width: 35%;
+  height: *;
+  margin: 0px;
+  padding: 0px;
+}
+
+/*columna flexible derecha*/
+.flex-right {
+  width: *;
+  margin: 0px;
+  padding: 0px;
+}
+
+/*ocultar scrollbar tabla municipios*/
+.example::-webkit-scrollbar {
+  display: none;
+}
+
+/* celda */
+td {
+  font-size: 7pt;
+  line-height: 10px;
+  color: #b7a7a7;
+  background-color: #ffffff;
+  vertical-align: middle;
+  padding: 0px;
+  margin: 0px;
+  border-style: none;
+  border-color: #000000;
+}
+
+/* fila */
+tr {
+  font-size: 7pt;
+  line-height: 10px;
+  color: #b7a7a7;
+  background-color: #ffffff;
+  vertical-align: middle;
+  padding: 0px;
+  margin: 0px;
+  border-style: none;
+  border-color: #000000;
+}
+
+/* fila de encabezados*/
+th {
+  font-size: 7pt;
+  line-height: 11px;
+  color: #b7a7a7;
+  background-color: #ffffff;
+  vertical-align: middle;
+  text-align: center;
+  width: 82px;
+  padding: 0px;
+  margin: 0px;
+  border-style: none;
+  border-color: #000000;
+}
+
+/* radio opciones */
+	input[type='radio'] {
+		-webkit-appearance:none !important;
+		width:13px !important;
+		height:13px !important;
+		border:1px solid #fbfbfb !important;
+		border-radius:8% !important;
+		display: inline-block !important;
+		/*outline:none;
+		box-shadow:0 0 5px 0px gray inset;*/
+	}
+	input[type='radio']:hover {
+		box-shadow:0 0 5px 0px orange inset !important;
+		display: inline-block !important;
+	}
+	input[type='radio']:before {
+		content:'' !important;
+		display:block !important;
+		width:60% !important;
+		height:60% !important;
+		margin: 20% auto !important;
+		border-radius:8% !important;
+		display: inline-block !important;
+	}
+	input[type='radio']:checked:before {
+		background:red !important;
+		display: inline-block !important;
+	}
+	
+	/* estilos de textos */
+label {
+  font-family: helvetica, arial, sans-serif;
+  color: #ffffff;
+}
+
+/* estilos de fuentes */
+.leaflet-tooltip-left:before {
+	right: 0;
+	margin-right: -12px;
+	border-left-color: rgba(255, 0, 0, 0.9);
+}
+.leaflet-tooltip-right:before {
+	left: 0;
+	margin-left: -12px;
+	border-right-color: rgba(255, 0, 0, 0.9);
+}
+.leaflet-tooltip-own {
+	position: absolute;
+	padding: 4px;
+	background-color: rgba(255, 0, 0, 0.9);
+	border: 0px solid #000;
+	color: #000;
+	white-space: nowrap;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	pointer-events: none;
+	box-shadow: 0 1px 3px rgba(255,0,0,0.9);
+}
+	
+span {
+  font-family: helvetica, arial, sans-serif;
+  color: #b7a7a7;
+}
+
+/* mapa*/
+#map  {
+  width: 1auto% !important;
+  height: 500px !important;
+  /* Altura del Cuadro del Mapa */
+  box-shadow: 0px 0px 0px #888 !important;
+  opacity: 1.0 !important;
+  background-color: #ffffff !important;
+}
+
+@media screen and (flex-basis:66.66%)
+{ 
+	overflow: scroll;
+}
+
+@media screen and (flex-basis:33.33%)
+{ 
+	position: fixed;
+}
+
+.myCSSClass {
+  background: green;
+  border: 2px solid cyan
+}
+
