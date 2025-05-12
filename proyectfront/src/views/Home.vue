@@ -1,9 +1,70 @@
 <script setup>
 import { onMounted } from 'vue';
 import * as bootstrap from 'bootstrap';
+//para el mapa leaflet
+import L from 'leaflet';
+//...................
+
+
+/*Script para leaflet
+onMounted(() => {
+  const map = L.map('map').setView([-16.2902, -63.5887], 5) // Coordenadas centrales de Bolivia
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors'
+  }).addTo(map)
+
+  // Puedes agregar un marcador si quieres
+  L.marker([-16.5, -68.15]).addTo(map)
+    .bindPopup('La Paz, Bolivia')
+    .openPopup()
+})
+//-...............................*/
+
+
+//Script 2 para el leaflet
+const hechos = [
+  {
+    nombre: 'Proclamación de Independencia',
+    descripcion: 'El 6 de agosto de 1825 se proclamó la independencia de Bolivia.',
+    lat: -19.0333,
+    lng: -65.2627,
+  },
+  {
+    nombre: 'Revolución de La Paz',
+    descripcion: 'El 16 de julio de 1809, se inicia la lucha por la independencia.',
+    lat: -16.5,
+    lng: -68.15,
+  },
+  {
+    nombre: 'Batalla de Ingavi',
+    descripcion: 'Batalla clave en la consolidación de la independencia.',
+    lat: -17.55,
+    lng: -67.1167,
+  }
+]
+
+onMounted(() => {
+  const map = L.map('map').setView([-16.2902, -63.5887], 5)
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors'
+  }).addTo(map)
+
+  // Agregar los marcadores
+  hechos.forEach(hecho => {
+    L.marker([hecho.lat, hecho.lng]).addTo(map)
+      .bindPopup(`<strong>${hecho.nombre}</strong><br>${hecho.descripcion}`)
+  })
+})
+//............................
 onMounted(() => {
   const el = document.querySelector('#carouselExample');
   if (el) new bootstrap.Carousel(el, { interval: 5000 });
+
+
+
+  
 });
 </script>
 <template>
@@ -33,8 +94,20 @@ onMounted(() => {
         <span class="carousel-control-next-icon"></span>
       </button>
     </div>
+    <!-- div class para el leaflet map -->
+    <div id="map" style="height: 500px;"></div>
+    <!-- ............................ -->
   </div>
+
 </template>
 <style scoped>
+/* Estilo para el leaflet  */
+#map {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+/* ........................... */
 .carousel img { max-height:400px; object-fit:fill; }
 </style>
