@@ -23,6 +23,7 @@ onMounted(() => {
 
 
 //Script 2 para el leaflet
+// vector de prueba
 const hechos = [
   {
     nombre: 'Proclamación de Independencia',
@@ -43,7 +44,7 @@ const hechos = [
     lng: -67.1167,
   }
 ]
-
+//......................................................
 onMounted(() => {
   const map = L.map('map').setView([-16.2902, -63.5887], 5)
 

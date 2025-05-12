@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>2025 MAP</title> 
+  <link rel="stylesheet" href="estilos.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+  <script src="L.SpeechBubble.js"></script>
+  <link rel="stylesheet" href="SpeechBubble.css" />
+  <script type="text/javascript" src="munis.js"></script>
+  <script type="text/javascript" src="deptos.js"></script>
+</head>
+
+<body>
+  <div class="flex-container">
+    <div class="flex-left">
+      <div id="map"></div>
+      <div>
+        <table style="width: auto%; color: #cccccc; border-style: none; border: inset 0pt; font-size: 8pt;">  <!-- original: width: auto% -->
+          <tr style="background-color: #cccccc; border-style: none; border: inset 0pt;">
+            <td style="width: 150px; background-color: #C4B3AD; border: inset 0pt;">  <!-- ancho y color columna caja -->
+              <label>
+                <input type="radio" name="color" value="Actividad" onclick="getValor();">Actividad
+              </label><br />
+              <label>
+                <input type="radio" name="color" value="Agropecuaria" onclick="getValor();">Agropecuaria
+              </label><br />
+              <label>
+                <input type="radio" name="color" value="Industria" onclick="getValor();">Industria
+              </label><br />
+              <label>
+                <input type="radio" name="color" value="Bienes" onclick="getValor();">Bienes
+              </label><br />
+              <label>
+                <input type="radio" name="color" value="Servicios" onclick="getValor();">Servicios
+              </label>
+            </td>
+            <td style="width: 150px; background-color: #C4B3AD; border: inset 0pt; vertical-align: top;">
+              <label>
+                <input type="radio" name="color" value="Actividad" onclick="getValor();">Población
+              </label><br />
+              <label>
+                <input type="radio" name="color" value="Agropecuaria" onclick="getValor();">Producción
+              </label><br />
+              <label>
+                <input type="radio" name="color" value="Industria" onclick="getValor();">Ocupación
+              </label><br />
+              <label>
+                <input type="radio" name="color" value="Bienes" onclick="getValor();">Inversión
+              </label>
+            </td>
+            <td style="width: 150px; background-color: #C4B3AD; border: inset 0pt; vertical-align: top;">
+              <label>
+                <input type="radio" name="color" value="Actividad" onclick="getValor();">Departamental
+              </label><br />
+              <label>
+                <input type="radio" name="color" value="Agropecuaria" onclick="getValor();">Municipal
+              </label><br />
+              <label>
+                <input type="radio" name="color" value="Industria" onclick="getValor();">Regional
+              </label><br />
+              <label>
+                <input type="radio" name="color" value="Bienes" onclick="getValor();">Otra
+              </label>
+            </td>
+          </tr>
+        </table>
+      </div>
+       <script type="text/javascript" src="unionab.js"></script>
+    </div>
+    <div class="flex-right">
+      <div style="width: 102%; height: 550px; margin-left: 5px; position: sticky; padding: 0px;">
+        <table style="width: 102%; border-color: #ffffff; margin-left: 5px; margin-right: 0;">
+          <tr>
+            <th style="width: 1pt;"><span>&nbsp;</span></th>
+            <th style="width: 35px;"><span>Chuquisaca</span></th>
+            <th style="width: 110px;"><span>La Paz</span></th>
+            <th style="width: 40px;"><span>Cochabamba</span></th>
+            <th style="width: 83px;"><span>Oruro</span></th>
+            <th style="width: 90px;"><span>Potosí</span></th>
+            <th style="width: 60px;"><span>Tarija</span></th>
+            <th style="width: 70px;"><span>Santa Cruz</span></th>
+            <th style="width: 52px;"><span>Beni</span></th>
+            <th style="width: 100px;"><span>Pando</span></th>
+            <th style="width: 1pt;"><span>&nbsp;</span></th>
+          </tr>
+        </table>
+        <hr style="border: 1px solid red; margin-left: 0px; width: 102%;" />
+        <div class="example" style="width: 102%; height: 550px; overflow: scroll; margin-left: 5px; margin-right: 0;padding: 0px;">
+          <table id="tbl1" style="width: 102%; border-color: #ffffff; margin-left: 5px;">
+            <tr>
+              <td style="width: 60px;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: 87px;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: 75px;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: 93px;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: 86px;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: 60px;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: 70px;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: 75px;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: 97px;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: 60px;"><span id="010101" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Sucre</span></td><!-- evento doble clic ondblclick="dataMuni(this);" -->
+              <td style="width: 87px;"><span id="020101" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">La Paz Nuestra Sra.</span></td>
+              <td style="width: 75px;"><span id="030101" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Cochabamba</span></td>
+              <td style="width: 93px;"><span id="040101" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Oruro</span></td>
+              <td style="width: 86px;"><span id="050101" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Potosí</span></td>
+              <td style="width: 60px;"><span id="060101" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Tarija</span></td>
+              <td style="width: 70px;"><span id="070101" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Santa Cruz</span></td>
+              <td style="width: 75px;"><span id="080101" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Trinidad</span></td>
+              <td style="width: 97px;"><span id="090101" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Cobija</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: auto%;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="010102" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Yotala</span></td>
+              <td style="width: auto%;"><span id="020102" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Palca</span></td>
+              <td style="width: auto%;"><span id="030201" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Aiquile</span></td>
+              <td style="width: auto%;"><span id="040102" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Caracollo</span></td>
+              <td style="width: auto%;"><span id="050102" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Tinguipaya</span></td>
+              <td style="width: auto%;"><span id="060201" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Padcaya</span></td>
+              <td style="width: auto%;"><span id="070102" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Cotoca</span></td>
+              <td style="width: auto%;"><span id="080102" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">San Javier Beni</span></td>
+              <td style="width: auto%;"><span id="090102" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Porvenir</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="010103" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Poroma</span></td>
+              <td style="width: auto%;"><span id="020103" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Mecapaca</span></td>
+              <td style="width: auto%;"><span id="030202" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Pasorapa</span></td>
+              <td style="width: auto%;"><span id="040103" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">El Choro</span></td>
+              <td style="width: auto%;"><span id="050103" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Yocalla</span></td>
+              <td style="width: auto%;"><span id="060202" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Bermejo</span></td>
+              <td style="width: auto%;"><span id="070103" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Porongo(Ayacucho)</span></td>
+              <td style="width: auto%;"><span id="080201" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Riberalta</span></td>
+              <td style="width: auto%;"><span id="090103" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Bolpebra(Mukden)</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="010201" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Azurduy</span></td>
+              <td style="width: auto%;"><span id="020104" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Achocalla</span></td>
+              <td style="width: auto%;"><span id="030203" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Omereque</span></td>
+              <td style="width: auto%;"><span id="040104" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Soracachi</span></td>
+              <td style="width: auto%;"><span id="050104" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Urmiri</span></td>
+              <td style="width: auto%;"><span id="060301" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Yacuiba</span></td>
+              <td style="width: auto%;"><span id="070104" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">La Guardia</span></td>
+              <td style="width: auto%;"><span id="080202" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Guayaramerín</span></td>
+              <td style="width: auto%;"><span id="090104" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Bella Flor</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="010202" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Villa Orías (Tarvita)</span></td>
+              <td style="width: auto%;"><span id="020105" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">El Alto</span></td>
+              <td style="width: auto%;"><span id="030301" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Independencia</span></td>
+              <td style="width: auto%;"><span id="040201" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Challapata</span></td>
+              <td style="width: auto%;"><span id="050201" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Uncía</span></td>
+              <td style="width: auto%;"><span id="060302" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Caraparí</span></td>
+              <td style="width: auto%;"><span id="070105" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">El Torno</span></td>
+              <td style="width: auto%;"><span id="080301" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Reyes</span></td>
+              <td style="width: auto%;"><span id="090201" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Puerto Rico</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="010301" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Zudáñez(Tacopaya)</span></td>
+              <td style="width: auto%;"><span id="020201" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Achacachi</span></td>
+              <td style="width: auto%;"><span id="030302" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Morochata</span></td>
+              <td style="width: auto%;"><span id="040202" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Quillacas Santuario</span></td>
+              <td style="width: auto%;"><span id="050202" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Chayanta</span></td>
+              <td style="width: auto%;"><span id="060303" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Villamontes</span></td>
+              <td style="width: auto%;"><span id="070201" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Warnes</span></td>
+              <td style="width: auto%;"><span id="080302" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">San Borja</span></td>
+              <td style="width: auto%;"><span id="090202" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Sn. Pedro</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="010302" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Presto</span></td>
+              <td style="width: auto%;"><span id="020202" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Ancoraimes</span></td>
+              <td style="width: auto%;"><span id="030303" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Cocapata</span></td>
+              <td style="width: auto%;"><span id="040301" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Corque</span></td>
+              <td style="width: auto%;"><span id="050203" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Llallagua</span></td>
+              <td style="width: auto%;"><span id="060401" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Concepción</span></td>
+              <td style="width: auto%;"><span id="070202" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Okinawa Uno</span></td>
+              <td style="width: auto%;"><span id="080303" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Sta Rosa Yacuma</span></td>
+              <td style="width: auto%;"><span id="090203" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Filadelfia</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="010303" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Mojocoya</span></td>
+              <td style="width: auto%;"><span id="020203" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Chua Cocani</span></td>
+              <td style="width: auto%;"><span id="030401" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Tarata</span></td>
+              <td style="width: auto%;"><span id="040302" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Choquecota</span></td>
+              <td style="width: auto%;"><span id="050204" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Chuquihuta Jucumani</span></td>
+              <td style="width: auto%;"><span id="060402" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Yunchará</span></td>
+              <td style="width: auto%;"><span id="070301" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Sn. Ignacio Velasco</span></td>
+              <td style="width: auto%;"><span id="080304" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Rurrenabaque</span></td>
+              <td style="width: auto%;"><span id="090301" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Pto. G. Moreno</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="010304" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Icla</span></td>
+              <td style="width: auto%;"><span id="020204" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Huarina</span></td>
+              <td style="width: auto%;"><span id="030402" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Anzaldo</span></td>
+              <td style="width: auto%;"><span id="040401" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Curahuara Carangas</span></td>
+              <td style="width: auto%;"><span id="050301" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Betanzos</span></td>
+              <td style="width: auto%;"><span id="060501" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">San Lorenzo</span></td>
+              <td style="width: auto%;"><span id="070302" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Sn. Miguel Velasco</span></td>
+              <td style="width: auto%;"><span id="080401" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Sta. Ana Yacuma</span></td>
+              <td style="width: auto%;"><span id="090302" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">San Lorenzo</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="010401" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Padilla</span></td>
+              <td style="width: auto%;"><span id="020205" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Santiago de Huata</span></td>
+              <td style="width: auto%;"><span id="030403" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Arbieto</span></td>
+              <td style="width: auto%;"><span id="040402" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Turco</span></td>
+              <td style="width: auto%;"><span id="050302" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Chaquí</span></td>
+              <td style="width: auto%;"><span id="060502" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">El Puente</span></td>
+              <td style="width: auto%;"><span id="070303" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">San Rafael</span></td>
+              <td style="width: auto%;"><span id="080402" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Exaltación</span></td>
+              <td style="width: auto%;"><span id="090303" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">El Sena</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="010402" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Tomina</span></td>
+              <td style="width: auto%;"><span id="020206" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Huatajata</span></td>
+              <td style="width: auto%;"><span id="030404" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Sacabamba</span></td>
+              <td style="width: auto%;"><span id="040501" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Huachacalla</span></td>
+              <td style="width: auto%;"><span id="050303" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Tacobamba</span></td>
+              <td style="width: auto%;"><span id="060601" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Entre Ríos</span></td>
+              <td style="width: auto%;"><span id="070401" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Buena Vista</span></td>
+              <td style="width: auto%;"><span id="080501" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">San Ignacio</span></td>
+              <td style="width: auto%;"><span id="090401" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Sta Rosa Abuná</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="010403" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Sopachuy</span></td>
+              <td style="width: auto%;"><span id="020301" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Coro Coro</span></td>
+              <td style="width: auto%;"><span id="030501" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Arani</span></td>
+              <td style="width: auto%;"><span id="040502" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Escara</span></td>
+              <td style="width: auto%;"><span id="050401" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Colquechaca</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="070402" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">San Carlos</span></td>
+              <td style="width: auto%;"><span id="080601" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Loreto</span></td>
+              <td style="width: auto%;"><span id="090402" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Ingavi</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="010404" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Villa Alcalá</span></td>
+              <td style="width: auto%;"><span id="020302" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Caquiaviri</span></td>
+              <td style="width: auto%;"><span id="030502" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Vacas</span></td>
+              <td style="width: auto%;"><span id="040503" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">C. Machacamarca</span></td>
+              <td style="width: auto%;"><span id="050402" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Ravelo</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="070403" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Yapacaní</span></td>
+              <td style="width: auto%;"><span id="080602" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">San Andrés</span></td>
+              <td style="width: auto%;"><span id="090501" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Nueva Esperanza</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();">.</td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();">.</td>
+              <td style="width: auto%;"><span id="010405" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">El Villar</span></td>
+              <td style="width: auto%;"><span id="020303" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Calacoto</span></td>
+              <td style="width: auto%;"><span id="030601" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Arque</span></td>
+              <td style="width: auto%;"><span id="040504" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Yunguyo del Litoral</span></td>
+              <td style="width: auto%;"><span id="050403" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Pocoata</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="070404" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">San Juan</span></td>
+              <td style="width: auto%;"><span id="080701" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">San Joaquin</span></td>
+              <td style="width: auto%;"><span id="090502" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Villa Nueva</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();">.</td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();">.</td>
+              <td style="width: auto%;"><span id="010501" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Monteagudo</span></td>
+              <td style="width: auto%;"><span id="020304" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Comanche</span></td>
+              <td style="width: auto%;"><span id="030602" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Tacopaya</span></td>
+              <td style="width: auto%;"><span id="040505" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Esmeralda</span></td>
+              <td style="width: auto%;"><span id="050404" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Ocurí</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="070501" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Sn José Chiquitos</span></td>
+              <td style="width: auto%;"><span id="080702" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">San Ramón</span></td>
+              <td style="width: auto%;"><span id="090503" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Santos Mercado</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();">.</td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();">.</td>
+              <td style="width: auto%;"><span id="010502" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Huacareta</span></td>
+              <td style="width: auto%;"><span id="020305" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Charaña</span></td>
+              <td style="width: auto%;"><span id="030701" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Capinota</span></td>
+              <td style="width: auto%;"><span id="040601" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Poopó</span></td>
+              <td style="width: auto%;"><span id="050501" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Sn P. Buena Vista</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="070502" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Pailón</span></td>
+              <td style="width: auto%;"><span id="080703" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Puerto Siles</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();">.</td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();">.</td>
+              <td style="width: auto%;"><span id="010601" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Tarabuco</span></td>
+              <td style="width: auto%;"><span id="020306" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Waldo Ballivián</span></td>
+              <td style="width: auto%;"><span id="030702" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Santiváñez</span></td>
+              <td style="width: auto%;"><span id="040602" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Pazña</span></td>
+              <td style="width: auto%;"><span id="050502" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Toro Toro</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="070503" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Roboré</span></td>
+              <td style="width: auto%;"><span id="080801" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Magadalena</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();">.</td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="010602" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Yamparáez</span></td>
+              <td style="width: auto%;"><span id="020307" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Nazacara de Pacajes</span></td>
+              <td style="width: auto%;"><span id="030703" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Sicaya</span></td>
+              <td style="width: auto%;"><span id="040603" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Antequera (Bolivar)</span></td>
+              <td style="width: auto%;"><span id="050601" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Cotagaita</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="070601" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Portachuelo</span></td>
+              <td style="width: auto%;"><span id="080802" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Baures</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="010701" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Camargo</span></td>
+              <td style="width: auto%;"><span id="020308" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Santiago de Callapa</span></td>
+              <td style="width: auto%;"><span id="030801" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Cliza</span></td>
+              <td style="width: auto%;"><span id="040701" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Villa Huanuni</span></td>
+              <td style="width: auto%;"><span id="050602" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Vitichi</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="070602" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Sta Rosa Sarah</span></td>
+              <td style="width: auto%;"><span id="080803" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Huacaraje</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="010702" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">San Lucas</span></td>
+              <td style="width: auto%;"><span id="020401" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Puerto Acosta</span></td>
+              <td style="width: auto%;"><span id="030802" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Toco</span></td>
+              <td style="width: auto%;"><span id="040702" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Machacamarca D.</span></td>
+              <td style="width: auto%;"><span id="050701" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Villa de Sacaca</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="070603" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Colpa Bélgica</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="010703" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Incahuasi</span></td>
+              <td style="width: auto%;"><span id="020402" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Mocomoco</span></td>
+              <td style="width: auto%;"><span id="030803" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Tolata</span></td>
+              <td style="width: auto%;"><span id="040801" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Salinas Garci Mendoza</span></td>
+              <td style="width: auto%;"><span id="050702" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Caripuyo</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="070701" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Lagunillas</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="010704" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Villa Charcas</span></td>
+              <td style="width: auto%;"><span id="020403" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Puerto Carabuco</span></td>
+              <td style="width: auto%;"><span id="030901" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Quillacollo</span></td>
+              <td style="width: auto%;"><span id="040802" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Pampa Aullagas</span></td>
+              <td style="width: auto%;"><span id="050801" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Tupiza</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="070702" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Charagua</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="010801" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Villa Serrano</span></td>
+              <td style="width: auto%;"><span id="020404" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Humanata</span></td>
+              <td style="width: auto%;"><span id="030902" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Sipesipe</span></td>
+              <td style="width: auto%;"><span id="040901" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Sabaya</span></td>
+              <td style="width: auto%;"><span id="050802" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Atocha</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="070703" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Cabezas</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="010901" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Camataqui</span></td>
+              <td style="width: auto%;"><span id="020405" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Escoma</span></td>
+              <td style="width: auto%;"><span id="030903" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Tiquipaya</span></td>
+              <td style="width: auto%;"><span id="040902" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Coipasa</span></td>
+              <td style="width: auto%;"><span id="050901" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Colcha K</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="070704" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Cuevo</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="010902" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Culpina</span></td>
+              <td style="width: auto%;"><span id="020501" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Chuma</span></td>
+              <td style="width: auto%;"><span id="030904" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Vinto</span></td>
+              <td style="width: auto%;"><span id="040903" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Chipaya</span></td>
+              <td style="width: auto%;"><span id="050902" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">San Pedro Quemes</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="070705" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Gutiérrez</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="010903" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Las Carreras</span></td>
+              <td style="width: auto%;"><span id="020502" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Ayata</span></td>
+              <td style="width: auto%;"><span id="030905" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Colcapirhua</span></td>
+              <td style="width: auto%;"><span id="041001" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Toledo</span></td>
+              <td style="width: auto%;"><span id="051001" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">San Pablo de Lípez</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="070706" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Camiri</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="011001" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Villa Vaca Guzmán</span></td>
+              <td style="width: auto%;"><span id="020503" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Aucapata</span></td>
+              <td style="width: auto%;"><span id="031001" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Sacaba</span></td>
+              <td style="width: auto%;"><span id="041101" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Eucaliptus</span></td>
+              <td style="width: auto%;"><span id="051002" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Mojinete</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="070707" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Boyuibe</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="011002" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Huacaya</span></td>
+              <td style="width: auto%;"><span id="020601" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Sorata</span></td>
+              <td style="width: auto%;"><span id="031002" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Colomi</span></td>
+              <td style="width: auto%;"><span id="041201" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Stgo. Andamarca</span></td>
+              <td style="width: auto%;"><span id="051003" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Sn Antonio Esmoruco</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="070801" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Vallegrande</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="011003" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Macharetí</span></td>
+              <td style="width: auto%;"><span id="020602" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Guanay</span></td>
+              <td style="width: auto%;"><span id="031003" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Villa Tunari</span></td>
+              <td style="width: auto%;"><span id="041202" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Belén de Andamarca</span></td>
+              <td style="width: auto%;"><span id="051101" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Puna (Villa Talavera)</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="070802" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Trigal</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="020603" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Tacacoma</span></td>
+              <td style="width: auto%;"><span id="031101" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Tapacarí</span></td>
+              <td style="width: auto%;"><span id="041301" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Totora San Pedro de</span></td>
+              <td style="width: auto%;"><span id="051102" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Caiza D</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="070803" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Moro Moro</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="020604" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Quiabaya</span></td>
+              <td style="width: auto%;"><span id="031201" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Totora</span></td>
+              <td style="width: auto%;"><span id="041401" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Santiago de Huari</span></td>
+              <td style="width: auto%;"><span id="051103" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Ckochas</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="070804" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Postrer Valle</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="020605" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Combaya</span></td>
+              <td style="width: auto%;"><span id="031202" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Pojo</span></td>
+              <td style="width: auto%;"><span id="041501" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">La Rivera</span></td>
+              <td style="width: auto%;"><span id="051201" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Uyuni</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="070805" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Pucara</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="020606" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Tipuani</span></td>
+              <td style="width: auto%;"><span id="031203" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Pocona</span></td>
+              <td style="width: auto%;"><span id="041502" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Todos Santos</span></td>
+              <td style="width: auto%;"><span id="051202" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Tomave</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="070901" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Samaipata</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="020607" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Mapiri</span></td>
+              <td style="width: auto%;"><span id="031204" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Chimoré</span></td>
+              <td style="width: auto%;"><span id="041503" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Carangas</span></td>
+              <td style="width: auto%;"><span id="051203" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Porco</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="070902" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Pampa Grande</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="020608" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Teoponte</span></td>
+              <td style="width: auto%;"><span id="031205" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Puerto Villarroel</span></td>
+              <td style="width: auto%;"><span id="041601" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Stgo. Huayllamarca</span></td>
+              <td style="width: auto%;"><span id="051301" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Arampampa</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="070903" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Mairana</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="020701" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Apolo</span></td>
+              <td style="width: auto%;"><span id="031206" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Entre Ríos</span></td>
+              <td style="width: auto%;"><span id="100002" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Salar de Coipasa</span></td>
+              <td style="width: auto%;"><span id="051302" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Acasio</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="070904" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Quirusillas</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="020702" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Pelechuco</span></td>
+              <td style="width: auto%;"><span id="031301" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Mizque</span></td>
+              <td style="width: auto%;"><span id="100003" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Lago Poopó</span></td>
+              <td style="width: auto%;"><span id="051401" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Llica</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="071001" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Montero</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="020801" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Viacha</span></td>
+              <td style="width: auto%;"><span id="031302" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Vila Vila</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="051402" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Tahua</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="071002" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Gral. Saavedra</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="020802" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Guaqui</span></td>
+              <td style="width: auto%;"><span id="031303" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Alalay</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="051501" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Villazón</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="071003" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Mineros</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="020803" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Tiawanacu</span></td>
+              <td style="width: auto%;"><span id="031401" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Punata</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="051601" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">San Agustin</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="071004" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Fernández Alonso</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="020804" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Desaguadero</span></td>
+              <td style="width: auto%;"><span id="031402" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Villa Rivero</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="100001" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Salar de Uyuni</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="071005" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">San Pedro</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="020805" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Sn Andrés Machaca</span></td>
+              <td style="width: auto%;"><span id="031403" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">San Benito</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="071101" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Concepción</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="020806" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Jesús de Machaca</span></td>
+              <td style="width: auto%;"><span id="031404" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Tacachi</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="071102" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">San Javier</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="020807" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Taraco</span></td>
+              <td style="width: auto%;"><span id="031405" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Gualberto Villarroel</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="071103" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">San Ramón</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="020901" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Luribay</span></td>
+              <td style="width: auto%;"><span id="031501" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Bolivar</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="071104" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">San Julián</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="020902" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Sapahaqui</span></td>
+              <td style="width: auto%;"><span id="031601" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Tiraque</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="071105" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Sn Antonio Lomerío</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="020903" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Yaco</span></td>
+              <td style="width: auto%;"><span id="031602" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Shinaota</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="071106" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Cuatro Cañadas</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="020904" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Malla</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="071201" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">San Matías</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="020905" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Cairoma</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="071301" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Comarapa</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="021001" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Inquisivi</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="071302" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Saipina</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="021002" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Quime</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="071401" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Puerto Suárez</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="021003" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Cajuata</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="071402" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Puerto Quijarro</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="021004" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Colquiri</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="071403" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Carmen Rivero T.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="021005" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Ichoca</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="071501" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Ascención Gyos.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="021006" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Villa Libertad Licoma</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="071502" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Urubichá</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="021101" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Chulumani</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="071503" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">El Puente</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="021102" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Irupana</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="021103" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Yanacachi</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="021104" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Palos Blancos</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="021105" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">La Asunta</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="021201" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Pucarani</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="021202" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Laja</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="021203" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Batallas</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="021204" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Puerto Pérez</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="021301" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Sica Sica (V. Aroma) </span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="021302" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Umala</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="021303" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Ayo Ayo</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="021304" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Calamarca</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="021305" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Patacamaya</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="021306" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Colquencha</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="021307" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Collana</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="021401" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Coroico</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="021402" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Coripata</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="021501" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Ixiamas</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="021502" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">San Buenaventura</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="021601" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Charazani (JJ. Pérez)</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="021602" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Curva</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="021701" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Copacabana</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="021702" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">San Pedro de Tiquina</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="021703" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Tito Yupanqui</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="021801" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Curahuara San Pedro</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="021802" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Papel Pampa</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="021803" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Chacarilla</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="021901" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Santiago de Machaca</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="021902" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Catacora</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="022001" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Caranavi</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+            <tr>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="022002" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">Alto Beni</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: auto%;"><span id="0" onmouseover="clickHandler(this);" onmouseout="fueraFoco(this);" ondblclick="dataMuni(this);">.</span></td>
+              <td style="width: 1pt;" onmouseover="clearMap();"><span id="0">.</span></td>
+            </tr>
+          </table>
+        </div>
+		</div>
+	  </div>
+    </div>
+  </div>
+  <p style="font-size: 8pt;text-align: center;">DDRR &copy; 2021</p>
+  <script type="text/javascript" src="unionba.js"></script>
+</body>
+
+</html>
