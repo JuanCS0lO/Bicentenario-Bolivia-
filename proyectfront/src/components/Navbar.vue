@@ -28,7 +28,7 @@
     router.push('/login')
   }
   </script>
-  <style>
+  <style scoped>
   .my-custom-btn {
   text-align: center;
   color: #fafafa;

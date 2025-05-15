@@ -35,14 +35,14 @@ const CiudadDTO = require('../dto/ciudad.dto');
 class CiudadService {
   static async getAll() {
     const res = await db.query(
-      'SELECT * FROM CiudadesImportantes ORDER BY nombre'
+      'SELECT * FROM ciudadesimportantes ORDER BY nombre'
     );
     return res.rows.map(r => new CiudadDTO(r));
   }
 
   static async getById(id) {
     const res = await db.query(
-      'SELECT * FROM CiudadesImportantes WHERE id_ciudad = $1',
+      'SELECT * FROM ciudadesimportantes WHERE id_ciudad = $1',
       [id]
     );
     if (res.rowCount === 0) return null;
@@ -51,7 +51,7 @@ class CiudadService {
 
   static async create({ nombre, descripcion, linkRef }) {
     const res = await db.query(
-      `INSERT INTO CiudadesImportantes (nombre, descripcion, linkref)
+      `INSERT INTO ciudadesimportantes (nombre, descripcion, linkref)
        VALUES ($1, $2, $3)
        RETURNING *`,
       [nombre, descripcion, linkRef]
@@ -61,7 +61,7 @@ class CiudadService {
 
   static async update(id, { nombre, descripcion, linkRef }) {
     const res = await db.query(
-      `UPDATE CiudadesImportantes
+      `UPDATE ciudadesimportantes
          SET nombre = $1, descripcion = $2, linkref = $3
        WHERE id_ciudad = $4
        RETURNING *`,
@@ -73,7 +73,7 @@ class CiudadService {
 
   static async delete(id) {
     const res = await db.query(
-      'DELETE FROM CiudadesImportantes WHERE id_ciudad = $1',
+      'DELETE FROM ciudadesimportantes WHERE id_ciudad = $1',
       [id]
     );
     return res.rowCount > 0; // true si borró algo

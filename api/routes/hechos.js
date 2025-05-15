@@ -36,6 +36,17 @@ router.get('/', authenticateToken, async (req, res) => {
   catch (e) { res.status(500).json({error: e.message}); }
 });
 
+
+/*
+// GET Datos especificos
+router.get('/', authenticateToken, async (req, res) => {
+  try { res.json(await HechoService.getDatosH()); }
+  catch (e) { res.status(500).json({error: e.message}); }
+});
+*/
+
+
+
 // GET by id
 router.get('/:id', authenticateToken, async (req, res) => {
   try {

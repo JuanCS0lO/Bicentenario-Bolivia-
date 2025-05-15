@@ -26,6 +26,17 @@ class HechoService {
     const res = await db.query('SELECT * FROM HechosImportantes ORDER BY fechainicio');
     return res.rows.map(r => new HechoDTO(r));
   }
+
+
+
+//NUEVA FUNCION PARA OBTENER DATOS ESPECIFICOS
+static async getDatosH() {
+    const res = await db.query('SELECT nombre,descripcion FROM HechosImportantes ORDER BY fechainicio');
+    return res.rows.map(r => new HechoDTO(r));
+  }
+//...............................................
+
+
   static async getById(id) {
     const res = await db.query('SELECT * FROM HechosImportantes WHERE id_hecho = $1', [id]);
     if (res.rowCount === 0) return null;
