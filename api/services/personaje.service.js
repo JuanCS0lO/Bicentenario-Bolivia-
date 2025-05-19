@@ -66,7 +66,7 @@ const PersonajeDTO = require('../dto/personaje.dto');
 
 class PersonajeService {
   static async getAll() {
-    const res = await db.query('SELECT * FROM Personajes ORDER BY apellido, nombre');
+    const res = await db.query('SELECT * FROM Personajes ORDER BY ap_pat, ap_mat, nombre');
     return res.rows.map(r => new PersonajeDTO(r));
   }
   static async getById(id) {
@@ -74,6 +74,9 @@ class PersonajeService {
     if (res.rowCount === 0) return null;
     return new PersonajeDTO(res.rows[0]);
   }
+
+
+  //de momento no modifique la creacion de personajes ni la modificacion de personajes, solo las consultas
   static async create({ nombre, apellido, seudonimo, descripcion, linkRef, fechaNac, fechaMrt, imagenURL }) {
     const res = await db.query(
       `INSERT INTO Personajes

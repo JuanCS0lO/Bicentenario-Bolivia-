@@ -277,6 +277,8 @@ onMounted(async () => {
     attribution: '© OpenStreetMap contributors'
   }).addTo(map);
 
+/*
+
   // 3. Mostrar marcadores combinando el vector `hechos` y los datos de la BD
   hechos.forEach((hecho, i) => {
     const personaje = personajes.value[i]; // ← CORRECTO: usar personajes.value
@@ -285,6 +287,16 @@ onMounted(async () => {
         .bindPopup(`<strong>${personaje.nombre}</strong><br>${personaje.descripcion}`);
     }
   });
+
+  */
+
+   // 3.1. Mostrar marcadores combinando el vector `hechos` y los datos de la BD
+   console.log("AAAAAAAAAAA SERVEEEER: ", personajes.value);
+personajes.value.forEach(personaje => {
+    L.marker([personaje.lat, personaje.lng]).addTo(map)
+      .bindPopup(`<strong>${personaje.nombre}</strong><br>${personaje.descripcion}`)
+  });
+
 
   // 4. Carousel de Bootstrap (puede estar aquí también)
   const el = document.querySelector('#carouselExample');

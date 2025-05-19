@@ -33,7 +33,8 @@ onMounted(async () => {
       <thead>
         <tr>
           <th>Nombre</th>
-          <th>Apellido</th>
+          <th>Apellido Paterno</th>
+          <th>Apellido Materno</th>
           <th>Descripción</th>
           <th>Seudónimo</th>
         </tr>
@@ -41,7 +42,8 @@ onMounted(async () => {
       <tbody>
         <tr v-for="p in personajes" :key="p.id">
           <td>{{ p.nombre }}</td>
-          <td>{{ p.apellido }}</td>
+          <td>{{ p.ap_pat }}</td>
+          <td>{{ p.ap_mat }}</td>
           <td>{{ p.descripcion }}</td>
           <td>{{ p.seudonimo }}</td>
         </tr>

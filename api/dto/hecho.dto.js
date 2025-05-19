@@ -14,7 +14,7 @@ class HechoDTO {
   module.exports = HechoDTO;
   */
   class HechoDTO {
-    constructor({ id_hecho, nombre, descripcion, fechainicio, fechafinal, linkref, imagenurl, id_categoria }) {
+    constructor({ id_hecho, nombre, descripcion, fechainicio, fechafinal, linkref, imagenurl, id_categoria, lat,lng }) {
       this.id          = id_hecho;
       this.nombre      = nombre;
       this.descripcion = descripcion;
@@ -23,6 +23,8 @@ class HechoDTO {
       this.linkRef     = linkref;
       this.imagenURL   = imagenurl;
       this.idCategoria = id_categoria;
+      this.lat = lat;
+      this.lng = lng;
     }
   }
   module.exports = HechoDTO;
