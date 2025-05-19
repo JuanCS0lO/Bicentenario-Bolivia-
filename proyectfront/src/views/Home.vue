@@ -8,6 +8,9 @@ import * as bootstrap from 'bootstrap';
 import L from 'leaflet';
 import LineaDeTiempo from './LineaDeTiempo.vue'
 
+
+import Lt from './Lt.vue'
+
 //Script 3 para leer BD
 
 
@@ -327,7 +330,10 @@ onMounted(async () => {
     <!-- div class para el leaflet map -->
     <div id="map" style="height: 500px;"></div>
     <h2 class="text-center mt-5 LT">Línea de Tiempo Histórica</h2>
-<LineaDeTiempo />
+
+    <Lt/>
+
+    <!-- <LineaDeTiempo /> -->
 
     <!-- ............................ -->
   </div>
