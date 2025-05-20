@@ -15,7 +15,7 @@ class PersonajeDTO {
   module.exports = PersonajeDTO;
   */
   class PersonajeDTO {
-    constructor({ id_pers, nombre, ap_pat, ap_mat, seudonimo, descripcion, linkref, fechanac, fechamrt, imagenurl }) {
+    constructor({ id_pers, nombre, ap_pat, ap_mat, seudonimo, descripcion, linkref, fechanac, fechamrt, imagen }) {
       this.id         = id_pers;
       this.nombre     = nombre;
       this.ap_pat   = ap_pat;
@@ -25,8 +25,9 @@ class PersonajeDTO {
       this.linkRef    = linkref;
       this.fechaNac   = fechanac;
       this.fechaMrt   = fechamrt;
-      this.imagenURL  = imagenurl;
+      this.imagen  = imagen;
     }
   }
   module.exports = PersonajeDTO;
+  
   

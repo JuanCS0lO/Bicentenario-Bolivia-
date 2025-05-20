@@ -13,8 +13,8 @@ module.exports = FilmDTO;
 
 // api/dto/ciudad.dto.js
 class CiudadDTO {
-    constructor({ id_ciudad, nombre, descripcion, linkref }) {
-      this.id         = id_ciudad;
+    constructor({ id_departamento, nombre, descripcion, linkref }) {
+      this.id         = id_departamento;
       this.nombre     = nombre;
       this.descripcion= descripcion;
       this.linkRef    = linkref;

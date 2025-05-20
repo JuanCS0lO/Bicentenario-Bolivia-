@@ -9,9 +9,12 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="p in personajes" :key="p.id">
-        <td>{{ p.nombre }}</td>
-        <td>{{ p.descripcion }}</td>
+
+      <tr v-for="c in ciudades" :key="c.id"@click="$router.push(`/ciudades/${c.id}`)"
+  style="cursor: pointer">
+        
+        <td>{{ c.nombre }}</td>
+        <td>{{ c.descripcion }}</td>
       </tr>
     </tbody>
     <!-- ctrl + c + k para comentarios xd -->
@@ -30,11 +33,11 @@
 import api from '../services/api';
 export default {
   data() {
-    return { personajes: [] };
+    return { ciudades: [] };
   },
   async created() {
     const resp = await api.get('/ciudades');
-    this.personajes = resp.data;
+    this.ciudades = resp.data;
   }
 };
 </script>
