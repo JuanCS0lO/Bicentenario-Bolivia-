@@ -14,24 +14,17 @@ module.exports = app;
 // api/app.js
 
 const express = require('express');
-
 const ciudadRoutes   = require('./routes/ciudades');
 const hechoRoutes    = require('./routes/hechos');
 const personajeRoutes= require('./routes/personajes');
 const authRoutes     = require('./routes/auth');
 const fuenteRoutes    = require('./routes/fuentes');
-const categoriaRoutes = require('./routes/categoria');
-const periodoRoutes = require('./routes/periodos');
-// const usuarioRoutes = require('./routes/usuarios');
 const cors           = require('cors');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use('/api/categoria', categoriaRoutes);
-app.use('/api/periodos', periodoRoutes);
-// app.use('/api/usuarios', usuarioRoutes);
 app.use('/api/ciudades',   ciudadRoutes);
 app.use('/api/hechos',     hechoRoutes);
 app.use('/api/personajes', personajeRoutes);

@@ -6,6 +6,8 @@ import PersonajesView from '../views/Personajes.vue';
 import CiudadesView from '../views/Ciudades.vue';
 import HechosView from '../views/Hechos.vue';
 import AboutView from '../views/AboutView.vue';
+import PersonajeDetalle from '../views/PersonajeDetalle.vue';
+import CiudadesDetalle from '../views/CiudadesDetalle.vue';
 
 const routes = [
   { path: '/register', name: 'Register', component: Register },
@@ -15,7 +17,10 @@ const routes = [
   { path: '/personajes', name: 'Personajes', component: PersonajesView, meta: { requiresAuth: true } },
   { path: '/ciudades', name: 'Ciudades', component: CiudadesView, meta: { requiresAuth: true } },
   { path: '/hechos', name: 'Hechos', component: HechosView, meta: { requiresAuth: true } },
-  { path: '/aboutview', name: 'About', component: AboutView }
+  { path: '/aboutview', name: 'About', component: AboutView },
+  { path: '/personaje/:id', name: 'PersonajeDetalle', component: PersonajeDetalle },
+{ path: '/ciudades/:id', name: 'CiudadesDetalle', component: CiudadesDetalle}
+
 ];
 
 const router = createRouter({ history: createWebHistory(), routes });

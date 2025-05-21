@@ -1,10 +1,59 @@
 <script setup>
-import { onMounted } from 'vue';
+import api from '../services/api';
+
+
+import { ref, onMounted } from 'vue';
 import * as bootstrap from 'bootstrap';
 //para el mapa leaflet
 import L from 'leaflet';
 import LineaDeTiempo from './LineaDeTiempo.vue'
 
+
+import Lt from './Lt.vue'
+
+//Script 3 para leer BD
+
+
+//Prueba 1 (no funciona porque estamos usando Vue 3)
+//iniciar aca comentario para comentar todo el siguiente fragmento de codigo
+  
+ /* export default {
+    data() {
+      return { personajes: [] };
+    },
+    async created() {
+      const resp = await api.get('/hechos');
+      console.log("Datos recibidos:", resp.data);
+      this.personajes = resp.data;
+    },
+    methods: {
+      formatDate(fecha) {
+        const date = new Date(fecha);
+        return isNaN(date) ? 'Fecha inválida' : date.toLocaleDateString();
+      }
+    }
+  };
+
+*/
+// finalizar aca comentario global para comentar todo el fragmento de codigo anterior
+
+
+//Prueba 2 (usando ref y codigo de vue 3)
+//iniciar aca comentario para comentar todo el siguiente fragmento de codigo
+  
+// finalizar aca comentario global para comentar todo el fragmento de codigo anterior
+const personajes = ref([])
+
+const formatDate = (fecha) => {
+  const date = new Date(fecha)
+  return isNaN(date) ? 'Fecha inválida' : date.toLocaleDateString()
+}
+
+onMounted(async () => {
+  const resp = await api.get('/hechos')
+  console.log('Datos recibidos:', resp.data)
+  personajes.value = resp.data
+})
 //...................
 
 
@@ -122,7 +171,15 @@ const hechos = [
     descripcion: 'El Alto se convirtió oficialmente en ciudad en 1985.',
     lat: -16.5000,
     lng: -68.1833,
-  },
+  }
+
+
+  // Comente los ultimos dos datos del vector para ver si el problema se da por la cantidad de 
+  //elementos en la BD (16) y la cantidad de elementos en el vector (18), pero no es eso xD
+
+  //                  \/\/\/\/\/\/\/
+
+  ,
   {
     nombre: 'Octubre Negro',
     descripcion: 'Masacre en El Alto y La Paz durante las protestas de 2003.',
@@ -138,7 +195,11 @@ const hechos = [
 ]
 
 //......................................................
-onMounted(() => {
+
+
+//*************************************/
+//Codigo comentado que fuciona con Vector BD 1, BD 2. Lo comente para probar el codigo 3 para leer la BD
+/*onMounted(() => {
   const map = L.map('map').setView([-16.2902, -63.5887], 5)
 map.setMaxBounds([
   [-22.9, -70.0], // suroeste de Bolivia
@@ -150,24 +211,102 @@ map.setMaxZoom(10);
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap contributors'
-  }).addTo(map)
+  }).addTo(map)*/
+//************************************
+
 
   // Agregar los marcadores
+
+//CON UN VECTOR (SIN BD)
+/*
   hechos.forEach(hecho => {
     L.marker([hecho.lat, hecho.lng]).addTo(map)
       .bindPopup(`<strong>${hecho.nombre}</strong><br>${hecho.descripcion}`)
   })
-})
+  })
+*/
 //............................
+
+//Para leer la BD 1
+/*personajes.forEach(personajes => {
+    L.marker([hecho.lat, hecho.lng]).addTo(map)
+      .bindPopup(`<strong>${personajes.nombre}</strong><br>${personajes.descripcion}`)
+  })
+
+})*/
+//............................
+
+//Para leer la BD 2
+/*
+hechos.forEach((hecho, i) => {
+  const personaje = personajes[i]; // obtener el personaje en la misma posición
+
+  if (personaje) {
+    L.marker([hecho.lat, hecho.lng]).addTo(map)
+      .bindPopup(`<strong>${personaje.nombre}</strong><br>${personaje.descripcion}`);
+  }
+})
+
+//............................
+
 onMounted(() => {
   const el = document.querySelector('#carouselExample');
+  if (el) new bootstrap.Carousel(el, { interval: 5000 });  
+});  
+
+*/
+
+//Para leer BD 3 (codigo corregido, hubo problema en onmounted())
+
+onMounted(async () => {
+  // 1. Obtener datos desde la BD
+  const resp = await api.get('/hechos');
+  personajes.value = resp.data;
+  console.log('Datos personajes BD:', personajes.value);
+
+  // 2. Crear el mapa
+  const map = L.map('map').setView([-16.2902, -63.5887], 5);
+  map.setMaxBounds([
+    [-22.9, -70.0],
+    [-9.5, -57.5]
+  ]);
+  map.setMinZoom(5);
+  map.setMaxZoom(10);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors'
+  }).addTo(map);
+
+/*
+
+  // 3. Mostrar marcadores combinando el vector `hechos` y los datos de la BD
+  hechos.forEach((hecho, i) => {
+    const personaje = personajes.value[i]; // ← CORRECTO: usar personajes.value
+    if (personaje) {
+      L.marker([hecho.lat, hecho.lng]).addTo(map)
+        .bindPopup(`<strong>${personaje.nombre}</strong><br>${personaje.descripcion}`);
+    }
+  });
+
+  */
+
+   // 3.1. Mostrar marcadores combinando el vector `hechos` y los datos de la BD
+   console.log("AAAAAAAAAAA SERVEEEER: ", personajes.value);
+personajes.value.forEach(personaje => {
+    L.marker([personaje.lat, personaje.lng]).addTo(map)
+      .bindPopup(`<strong>${personaje.nombre}</strong><br>${personaje.descripcion}`)
+  });
+
+
+  // 4. Carousel de Bootstrap (puede estar aquí también)
+  const el = document.querySelector('#carouselExample');
   if (el) new bootstrap.Carousel(el, { interval: 5000 });
-
-
-
-  
 });
+
+
 </script>
+
+
 <template>
   <div class="container mt-4">
     <h1 class="text-center mb-4">Bicentenario Bolivia</h1>
@@ -203,13 +342,16 @@ onMounted(() => {
     <!-- div class para el leaflet map -->
     <div id="map" style="height: 500px;"></div>
     <h2 class="text-center mt-5 LT">Línea de Tiempo Histórica</h2>
-<LineaDeTiempo />
+
+    <Lt/>
+
+    <!-- <LineaDeTiempo /> -->
 
     <!-- ............................ -->
   </div>
 
 </template>
-<style scoped>
+<style>
 /* Estilo para el leaflet  */
 #map {
   width: 100%;

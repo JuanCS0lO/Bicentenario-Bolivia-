@@ -35,7 +35,7 @@
   </script>
 
 
-  <style>
+  <style scoped>
 .ing {
   display: block;
   margin: 0 auto;

@@ -5,6 +5,9 @@
 </template>
 
 <script setup>
+//---------------------------------------------------------------------------------------
+// PRIMER CODIGO QUE LEE VECTOR
+/*
 import { onMounted, ref } from 'vue'
 import { DataSet, Timeline } from 'vis-timeline/standalone'
 import 'vis-timeline/styles/vis-timeline-graph2d.min.css'
@@ -45,11 +48,51 @@ onMounted(() => {
 
   new Timeline(container, items, options)
 })
-</script>
+*/
+//---------------------------------------------------------------------------------------
 
+//---------------------------------------------------------------------------------------
+//SEGUNDO CODIGO QUE LEE BD:
+
+import { onMounted, ref } from 'vue'
+import { DataSet, Timeline } from 'vis-timeline/standalone'
+import 'vis-timeline/styles/vis-timeline-graph2d.min.css'
+import api from '../services/api'  // importar tu conexión con la API
+
+const timeline = ref(null)
+const hechos = ref([]) // este será llenado con los datos del backend
+
+onMounted(async () => {
+  const resp = await api.get('/hechos')
+  console.log("Datos recibidos:", resp.data)
+
+  // Transformar los datos para que tengan el formato que vis-timeline necesita
+  hechos.value = resp.data.map((hecho, index) => ({
+    id: index + 1,
+    content: hecho.nombre,           // Usa el campo adecuado de tu BD
+    start: hecho.fechaInicio,              // Asegúrate que tu BD tiene campo "fecha"
+    className: 'eventoBicentenario'  // Opcional para estilo
+  }))
+
+  const items = new DataSet(hechos.value)
+  const options = {
+    zoomable: false,
+    moveable: true,
+    margin: { item: 20 },
+    orientation: 'top',
+    showMajorLabels: true,
+    showCurrentTime: false,
+    editable: false,
+  }
+
+  new Timeline(timeline.value, items, options)
+})
+
+</script>
 <style>
 .eventoFinalFortnite{
   background-color: #4caf50;
   color: white;
 }
 </style>
+
