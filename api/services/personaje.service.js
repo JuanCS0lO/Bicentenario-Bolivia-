@@ -66,7 +66,7 @@ const PersonajeDTO = require('../dto/personaje.dto');
 
 class PersonajeService {
   static async getAll() {
-    const res = await db.query('SELECT * FROM Personajes ORDER BY nombre');
+    const res = await db.query('SELECT * FROM Personajes ORDER BY ap_pat, ap_mat, nombre');
     return res.rows.map(r => new PersonajeDTO(r));
   }
   static async getById(id) {
@@ -74,48 +74,31 @@ class PersonajeService {
     if (res.rowCount === 0) return null;
     return new PersonajeDTO(res.rows[0]);
   }
-  // static async create({ nombre, apellido, seudonimo, descripcion, linkRef, fechaNac, fechaMrt, imagenURL }) {
-  //   const res = await db.query(
-  //     `INSERT INTO Personajes
-  //        (nombre, apellido, seudonimo, descripcion, linkref, fechanac, fechamrt, imagenurl)
-  //      VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
-  //      RETURNING *`,
-  //     [nombre, apellido, seudonimo, descripcion, linkRef, fechaNac, fechaMrt, imagenURL]
-  //   );
-  //   return new PersonajeDTO(res.rows[0]);
-  // }
-  static async create(data) {
-    const cols = ['nombre','ap_pat','ap_mat','seudonimo','descripcion','fechanac','fechamrt','video','imagen','linkref'];
-    const vals = cols.map((_,i) => `$${i+1}`).join(',');
-    const values = cols.map(c => data[c]);
-    const { rows } = await db.query(
-      `INSERT INTO Personajes (${cols.join(',')}) VALUES (${vals}) RETURNING *`,
-      values
+
+
+  //de momento no modifique la creacion de personajes ni la modificacion de personajes, solo las consultas
+  static async create({ nombre, apellido, seudonimo, descripcion, linkRef, fechaNac, fechaMrt, imagenURL }) {
+    const res = await db.query(
+      `INSERT INTO Personajes
+         (nombre, apellido, seudonimo, descripcion, linkref, fechanac, fechamrt, imagenurl)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
+       RETURNING *`,
+      [nombre, apellido, seudonimo, descripcion, linkRef, fechaNac, fechaMrt, imagenURL]
     );
-    return new PersonajeDTO(rows[0]);
+    return new PersonajeDTO(res.rows[0]);
   }
-   static async update(id, data) {
-    const fields = Object.keys(data);
-    const setClause = fields.map((f,i) => `${f}=$${i+1}`).join(',');
-    const values = fields.map(f => data[f]).concat(id);
-    const { rows, rowCount } = await db.query(
-      `UPDATE Personajes SET ${setClause} WHERE ID_pers=$${fields.length+1} RETURNING *`,
-      values
+  static async update(id, { nombre, apellido, seudonimo, descripcion, linkRef, fechaNac, fechaMrt, imagenURL }) {
+    const res = await db.query(
+      `UPDATE Personajes SET
+         nombre = $1, apellido = $2, seudonimo = $3, descripcion = $4,
+         linkref = $5, fechanac = $6, fechamrt = $7, imagenurl = $8
+       WHERE id_pers = $9
+       RETURNING *`,
+      [nombre, apellido, seudonimo, descripcion, linkRef, fechaNac, fechaMrt, imagenURL, id]
     );
-    return rowCount ? new PersonajeDTO(rows[0]) : null;
+    if (res.rowCount === 0) return null;
+    return new PersonajeDTO(res.rows[0]);
   }
-  // static async update(id, { nombre, apellido, seudonimo, descripcion, linkRef, fechaNac, fechaMrt, imagenURL }) {
-  //   const res = await db.query(
-  //     `UPDATE Personajes SET
-  //        nombre = $1, apellido = $2, seudonimo = $3, descripcion = $4,
-  //        linkref = $5, fechanac = $6, fechamrt = $7, imagenurl = $8
-  //      WHERE id_pers = $9
-  //      RETURNING *`,
-  //     [nombre, apellido, seudonimo, descripcion, linkRef, fechaNac, fechaMrt, imagenURL, id]
-  //   );
-  //   if (res.rowCount === 0) return null;
-  //   return new PersonajeDTO(res.rows[0]);
-  // }
   static async delete(id) {
     const res = await db.query('DELETE FROM Personajes WHERE id_pers = $1', [id]);
     return res.rowCount > 0;

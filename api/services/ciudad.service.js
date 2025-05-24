@@ -35,44 +35,36 @@ const CiudadDTO = require('../dto/ciudad.dto');
 class CiudadService {
   static async getAll() {
     const res = await db.query(
-      'SELECT * FROM Departamento ORDER BY nombre'
+      'SELECT * FROM departamento ORDER BY nombre'
     );
     return res.rows.map(r => new CiudadDTO(r));
   }
 
   static async getById(id) {
     const res = await db.query(
-      'SELECT * FROM Departamento WHERE ID_Departamento=$1',
+      'SELECT * FROM departamento WHERE id_departamento = $1',
       [id]
     );
     if (res.rowCount === 0) return null;
     return new CiudadDTO(res.rows[0]);
   }
 
-  // static async create({ nombre, descripcion, linkRef }) {
-  //   const res = await db.query(
-  //     `INSERT INTO CiudadesImportantes (nombre, descripcion, linkref)
-  //      VALUES ($1, $2, $3)
-  //      RETURNING *`,
-  //     [nombre, descripcion, linkRef]
-  //   );
-  //   return new CiudadDTO(res.rows[0]);
-  // }
-
-  static async create(data) {
-    const { nombre, descripcion, linkRef, imagen, video } = data;
-    const { rows } = await db.query(
-      `INSERT INTO Departamento (nombre, descripcion, linkref, imagen, video)
-       VALUES ($1,$2,$3,$4,$5) RETURNING *`,
-      [nombre, descripcion, linkRef, imagen, video]
+  static async create({ nombre, descripcion, linkRef }) {
+    const res = await db.query(
+      `INSERT INTO departamento (nombre, descripcion, linkref)
+       VALUES ($1, $2, $3)
+       RETURNING *`,
+      [nombre, descripcion, linkRef]
     );
-    return new DepartamentoDTO(rows[0]);
+    return new CiudadDTO(res.rows[0]);
   }
 
   static async update(id, { nombre, descripcion, linkRef }) {
     const res = await db.query(
-      `UPDATE Departamento SET nombre=$1, descripcion=$2, linkref=$3, imagen=$4, video=$5
-       WHERE ID_Departamento=$6 RETURNING *`,
+      `UPDATE departamento
+         SET nombre = $1, descripcion = $2, linkref = $3
+       WHERE id_departamento = $4
+       RETURNING *`,
       [nombre, descripcion, linkRef, id]
     );
     if (res.rowCount === 0) return null;
@@ -81,7 +73,7 @@ class CiudadService {
 
   static async delete(id) {
     const res = await db.query(
-      'DELETE FROM Departamento WHERE ID_Departamento=$1',
+      'DELETE FROM departamento WHERE id_departamento = $1',
       [id]
     );
     return res.rowCount > 0; // true si borró algo

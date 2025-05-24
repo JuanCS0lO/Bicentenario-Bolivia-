@@ -121,8 +121,8 @@ router.get('/:id', authenticateToken, async (req, res) => {
 // POST /api/ciudades
 router.post('/', authenticateToken, async (req, res) => {
   try {
-    // const { nombre, descripcion, linkRef } = req.body;
-    const created = await CiudadService.create(req.body);
+    const { nombre, descripcion, linkRef } = req.body;
+    const created = await CiudadService.create({ nombre, descripcion, linkRef });
     res.status(201).json(created);
   } catch (e) {
     res.status(500).json({ error: e.message });
