@@ -33,15 +33,18 @@ onMounted(async () => {
       <thead>
         <tr>
           <th>Nombre</th>
-          <th>Apellido</th>
+          <th>Apellido Paterno</th>
+          <th>Apellido Materno</th>
           <th>Descripción</th>
           <th>Seudónimo</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="p in personajes" :key="p.id">
+        <tr v-for="p in personajes" :key="p.id"@click="$router.push(`/personaje/${p.id}`)"
+  style="cursor: pointer">
           <td>{{ p.nombre }}</td>
-          <td>{{ p.apellido }}</td>
+          <td>{{ p.apellidoPaterno }}</td>
+          <td>{{ p.apellidoMaterno }}</td>
           <td>{{ p.descripcion }}</td>
           <td>{{ p.seudonimo }}</td>
         </tr>

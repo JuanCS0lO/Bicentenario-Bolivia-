@@ -10,7 +10,7 @@
           <label for="contrasenia" class="form-label">Contraseña</label>
           <input v-model="contrasenia" id="contrasenia" type="password" class="form-control" required />
         </div>
-        <button type="submit" class="btn btn-primary w-100">Ingresar</button>
+        <button type="submit" class="btn btn-primary ing">Ingresar</button>
         <div v-if="error" class="alert alert-danger mt-3">{{ error }}</div>
       </form>
     </div>
@@ -33,3 +33,24 @@
     }
   }
   </script>
+
+
+  <style scoped>
+.ing {
+  display: block;
+  margin: 0 auto;
+  width: fit-content; /* Esto evita que se estire */
+  color: #fafafa;
+  background-color: #8b0000;
+  border: 1px solid #8b0000;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.ing:hover {
+  background-color: #670000;
+  color: white;
+}
+</style>
