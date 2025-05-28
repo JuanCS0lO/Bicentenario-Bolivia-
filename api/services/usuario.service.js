@@ -11,7 +11,7 @@ class UsuarioService {
     return rows[0] ? new UsuarioDTO(rows[0]) : null;
   }
   static async create(data) {
-    const cols = ['nombre','ap_pat','ap_mat','username','password','imagen','rol_id_rol'];
+    const cols = ['nombre','ap_pat','ap_mat','username','contrasenia','imagen','rol_id_rol'];//cambie password por contrasenia
     const vals = cols.map((_,i) => `$${i+1}`).join(',');
     const values = cols.map(c => data[c]);
     const { rows } = await db.query(

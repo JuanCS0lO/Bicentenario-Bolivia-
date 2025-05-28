@@ -51,10 +51,10 @@ class AuthService {
     const hash = await bcrypt.hash(contrasenia, 10);
     // 2) inserción en BD
     const res = await db.query(
-      `INSERT INTO usuarios (nombre, ap_pat, ap_mat, username, contrasenia)
-       VALUES ($1, $2, $3, $4, $5)
+      `INSERT INTO usuarios (nombre, ap_pat, ap_mat, username, contrasenia, rol_id_rol)
+       VALUES ($1, $2, $3, $4, $5, $6)
        RETURNING idusuario, nombre, ap_pat, ap_mat, username`,
-      [nombre, ap_pat, ap_mat, username, hash]
+      [nombre, ap_pat, ap_mat, username, hash, 2]
     );
     // 3) devolvemos DTO (sin contrasenia)
     return new UsuarioDTO(res.rows[0]);
