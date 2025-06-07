@@ -32,6 +32,19 @@ onMounted(async () => {
   const { data } = await api.get('/hechos')
   hechos.value = data
 })
+
+function esYoutube(url) {
+  return url?.includes('youtube.com') || url?.includes('youtu.be')
+}
+
+function getYoutubeEmbedUrl(url) {
+  if (!url) return ''
+  const id = url.includes('youtu.be')
+    ? url.split('/').pop()
+    : new URLSearchParams(new URL(url).search).get('v')
+  return `https://www.youtube.com/embed/${id}`
+}
+
 </script>
 
 <style scoped>

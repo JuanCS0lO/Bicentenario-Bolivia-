@@ -44,6 +44,11 @@
   .navbar-brand {
   color: #f5f5f5;
 }
+.navbar-brand:hover {
+  background-color: #670000;
+  color: white;
+  transition: background-color 0.3s ease;
+}
   .my-custom-btn {
   text-align: center;
   color: #fafafa;

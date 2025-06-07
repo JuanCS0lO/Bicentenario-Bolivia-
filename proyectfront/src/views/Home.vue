@@ -1,8 +1,6 @@
 <script setup>
 import api from '../services/api';
-
-
-import { ref, onMounted } from 'vue';
+import { ref, onMounted ,nextTick} from 'vue';
 import * as bootstrap from 'bootstrap';
 //para el mapa leaflet
 import L from 'leaflet';
@@ -11,297 +9,131 @@ import LineaDeTiempo from './LineaDeTiempo.vue'
 
 import Lt from './Lt.vue'
 
-//Script 3 para leer BD
+const nuevaImagen = ref('')
+
+const imagenesCarrusel = ref([])
 
 
-//Prueba 1 (no funciona porque estamos usando Vue 3)
-//iniciar aca comentario para comentar todo el siguiente fragmento de codigo
-  
- /* export default {
-    data() {
-      return { personajes: [] };
-    },
-    async created() {
-      const resp = await api.get('/hechos');
-      console.log("Datos recibidos:", resp.data);
-      this.personajes = resp.data;
-    },
-    methods: {
-      formatDate(fecha) {
-        const date = new Date(fecha);
-        return isNaN(date) ? 'Fecha inválida' : date.toLocaleDateString();
+function agregarImagen() {
+  if (nuevaImagen.value.trim() !== '') {
+    imagenesCarrusel.value.push(nuevaImagen.value.trim())
+    localStorage.setItem('imagenesCarrusel', JSON.stringify(imagenesCarrusel.value))
+    nuevaImagen.value = ''
+    cerrarModal('modalAgregarImagen')
+    reiniciarCarrusel()
+  }
+}
+
+const indiceAEliminar = ref('')
+
+function borrarImagen() {
+  if (indiceAEliminar.value !== '') {
+    const index = parseInt(indiceAEliminar.value)
+    imagenesCarrusel.value.splice(index, 1)
+    localStorage.setItem('imagenesCarrusel', JSON.stringify(imagenesCarrusel.value))
+    indiceAEliminar.value = ''
+    
+    // 🔁 Reinicia el carrusel después de que Vue reactive la lista
+    nextTick(() => {
+      aplicarClaseActiveCarrusel()
+      reiniciarCarrusel()
+      cerrarModal('modalBorrarImagen')
+    })
+  }
+}
+
+function aplicarClaseActiveCarrusel() {
+  const items = document.querySelectorAll('#carouselExample .carousel-item')
+  const indicators = document.querySelectorAll('#carouselExample .carousel-indicators button')
+
+  items.forEach((el, idx) => el.classList.toggle('active', idx === 0))
+  indicators.forEach((el, idx) => el.classList.toggle('active', idx === 0))
+}
+
+
+
+function cerrarModal(idModal) {
+  const modalEl = document.getElementById(idModal)
+
+  const existing = bootstrap.Modal.getInstance(modalEl)
+    || new bootstrap.Modal(modalEl)
+  existing.hide()
+
+  // Limpia el backdrop si queda opaco
+  setTimeout(() => {
+    document.body.classList.remove('modal-open')
+    document.querySelectorAll('.modal-backdrop').forEach(el => el.remove())
+  }, 200)
+}
+
+
+function reiniciarCarrusel() {
+  nextTick(() => {
+    const el = document.querySelector('#carouselExample')
+    if (el) {
+      const prevInstance = bootstrap.Carousel.getInstance(el)
+      if (prevInstance) {
+        prevInstance.dispose()
       }
+      new bootstrap.Carousel(el, { interval: 5000 })
     }
-  };
-
-*/
-// finalizar aca comentario global para comentar todo el fragmento de codigo anterior
+  })
+}
 
 
-//Prueba 2 (usando ref y codigo de vue 3)
-//iniciar aca comentario para comentar todo el siguiente fragmento de codigo
-  
-// finalizar aca comentario global para comentar todo el fragmento de codigo anterior
+
+
+
 const personajes = ref([])
+
+const isAdmin = ref(false)
+const estaLogeado = ref(false)
 
 const formatDate = (fecha) => {
   const date = new Date(fecha)
   return isNaN(date) ? 'Fecha inválida' : date.toLocaleDateString()
 }
 
+
 onMounted(async () => {
+  // Cargar imágenes del localStorage o valores por defecto
+  const guardadas = localStorage.getItem('imagenesCarrusel')
+  imagenesCarrusel.value = guardadas
+    ? JSON.parse(guardadas)
+    : [
+        'https://i.pinimg.com/736x/ec/45/7f/ec457f7648d5aa0c33e18f86f47da3fa.jpg',
+        'https://i.pinimg.com/736x/2e/12/db/2e12dba4c994f7f067b9e9f255d752f1.jpg',
+        'https://i.pinimg.com/736x/aa/e9/8f/aae98fd8eea3965650436e9578429927.jpg',
+        '/images/I1.jpg'
+      ]
+
+  // Obtener rol
+  const rolGuardado = parseInt(localStorage.getItem('rol'))
+  isAdmin.value = rolGuardado === 1
+
+  // Obtener hechos históricos
   const resp = await api.get('/hechos')
-  console.log('Datos recibidos:', resp.data)
   personajes.value = resp.data
-})
-//...................
 
-
-/*Script para leaflet
-onMounted(() => {
-  const map = L.map('map').setView([-16.2902, -63.5887], 5) // Coordenadas centrales de Bolivia
+  // Crear el mapa
+  const map = L.map('map').setView([-16.2902, -63.5887], 5)
+  map.setMaxBounds([[-22.9, -70.0], [-9.5, -57.5]])
+  map.setMinZoom(5)
+  map.setMaxZoom(10)
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap contributors'
   }).addTo(map)
 
-  // Puedes agregar un marcador si quieres
-  L.marker([-16.5, -68.15]).addTo(map)
-    .bindPopup('La Paz, Bolivia')
-    .openPopup()
-})
-//-...............................*/
-
-
-//Script 2 para el leaflet
-// vector de prueba
-const hechos = [
-  {
-    nombre: 'Proclamación de Independencia',
-    descripcion: 'El 6 de agosto de 1825 se proclamó la independencia de Bolivia.',
-    lat: -19.0333,
-    lng: -65.2627,
-  },
-  {
-    nombre: 'Revolución de La Paz',
-    descripcion: 'El 16 de julio de 1809, se inició la lucha por la independencia.',
-    lat: -16.5,
-    lng: -68.15,
-  },
-  {
-    nombre: 'Batalla de Ingavi',
-    descripcion: 'Victoria boliviana en 1841 contra Perú, consolidando la independencia.',
-    lat: -17.55,
-    lng: -67.1167,
-  },
-  {
-    nombre: 'Revolución de Cochabamba',
-    descripcion: 'El 14 de septiembre de 1810, Cochabamba se rebeló contra la corona española.',
-    lat: -17.3895,
-    lng: -66.1568,
-  },
-  {
-    nombre: 'Revolución de Santa Cruz',
-    descripcion: 'El 24 de septiembre de 1810, Santa Cruz se unió a la causa independentista.',
-    lat: -17.7833,
-    lng: -63.1833,
-  },
-  {
-    nombre: 'Combate de Aroma',
-    descripcion: 'En 1810, los patriotas vencieron al ejército español en Aroma, La Paz.',
-    lat: -17.0,
-    lng: -67.5,
-  },
-  {
-    nombre: 'Muerte de Túpac Katari',
-    descripcion: 'Ejecutado en 1781 tras liderar un cerco revolucionario en La Paz.',
-    lat: -16.5,
-    lng: -68.15,
-  },
-  {
-    nombre: 'Ejecutan a Bartolina Sisa',
-    descripcion: 'Heroína indígena capturada y asesinada por los realistas en 1782.',
-    lat: -16.5,
-    lng: -68.15,
-  },
-  {
-    nombre: 'Fundación de la República',
-    descripcion: 'La Asamblea de 1825 declara a Bolivia como una república libre.',
-    lat: -19.0333,
-    lng: -65.2627,
-  },
-  {
-    nombre: 'Batalla del Alto de la Alianza',
-    descripcion: 'Derrota boliviano-peruana en la Guerra del Pacífico (1880).',
-    lat: -17.9731,
-    lng: -70.2328,
-  },
-  {
-    nombre: 'Guerra del Chaco',
-    descripcion: 'Conflicto entre Bolivia y Paraguay (1932-1935) por el Chaco Boreal.',
-    lat: -21.0,
-    lng: -63.0,
-  },
-  {
-    nombre: 'Nacionalización del Estaño',
-    descripcion: 'Víctor Paz Estenssoro nacionaliza las minas en 1952.',
-    lat: -18.4167,
-    lng: -66.6,
-  },
-  {
-    nombre: 'Revolución Nacional de 1952',
-    descripcion: 'Proceso que transformó Bolivia con voto universal y reforma agraria.',
-    lat: -16.5,
-    lng: -68.15,
-  },
-  {
-    nombre: 'Muerte de Che Guevara',
-    descripcion: 'Fue capturado y ejecutado en La Higuera, Santa Cruz en 1967.',
-    lat: -18.7667,
-    lng: -64.2167,
-  },
-  {
-    nombre: 'Masacre de San Juan',
-    descripcion: 'Represión contra mineros en 1967 en Siglo XX y Catavi.',
-    lat: -18.4167,
-    lng: -66.6,
-  },
-  {
-    nombre: 'Creación del Alto como ciudad',
-    descripcion: 'El Alto se convirtió oficialmente en ciudad en 1985.',
-    lat: -16.5000,
-    lng: -68.1833,
-  }
-
-
-  // Comente los ultimos dos datos del vector para ver si el problema se da por la cantidad de 
-  //elementos en la BD (16) y la cantidad de elementos en el vector (18), pero no es eso xD
-
-  //                  \/\/\/\/\/\/\/
-
-  ,
-  {
-    nombre: 'Octubre Negro',
-    descripcion: 'Masacre en El Alto y La Paz durante las protestas de 2003.',
-    lat: -16.5,
-    lng: -68.15,
-  },
-  {
-    nombre: 'Primera Constitución del Estado Plurinacional',
-    descripcion: 'En 2009 se promulga la nueva constitución que refunda Bolivia.',
-    lat: -16.5,
-    lng: -68.15,
-  }
-]
-
-//......................................................
-
-
-//*************************************/
-//Codigo comentado que fuciona con Vector BD 1, BD 2. Lo comente para probar el codigo 3 para leer la BD
-/*onMounted(() => {
-  const map = L.map('map').setView([-16.2902, -63.5887], 5)
-map.setMaxBounds([
-  [-22.9, -70.0], // suroeste de Bolivia
-  [-9.5, -57.5]   // noreste de Bolivia
-]);
-map.setMinZoom(5);
-map.setMaxZoom(10);
-
-
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© OpenStreetMap contributors'
-  }).addTo(map)*/
-//************************************
-
-
-  // Agregar los marcadores
-
-//CON UN VECTOR (SIN BD)
-/*
-  hechos.forEach(hecho => {
-    L.marker([hecho.lat, hecho.lng]).addTo(map)
-      .bindPopup(`<strong>${hecho.nombre}</strong><br>${hecho.descripcion}`)
-  })
-  })
-*/
-//............................
-
-//Para leer la BD 1
-/*personajes.forEach(personajes => {
-    L.marker([hecho.lat, hecho.lng]).addTo(map)
-      .bindPopup(`<strong>${personajes.nombre}</strong><br>${personajes.descripcion}`)
-  })
-
-})*/
-//............................
-
-//Para leer la BD 2
-/*
-hechos.forEach((hecho, i) => {
-  const personaje = personajes[i]; // obtener el personaje en la misma posición
-
-  if (personaje) {
-    L.marker([hecho.lat, hecho.lng]).addTo(map)
-      .bindPopup(`<strong>${personaje.nombre}</strong><br>${personaje.descripcion}`);
-  }
-})
-
-//............................
-
-onMounted(() => {
-  const el = document.querySelector('#carouselExample');
-  if (el) new bootstrap.Carousel(el, { interval: 5000 });  
-});  
-
-*/
-
-//Para leer BD 3 (codigo corregido, hubo problema en onmounted())
-
-onMounted(async () => {
-  // 1. Obtener datos desde la BD
-  const resp = await api.get('/hechos');
-  personajes.value = resp.data;
-  console.log('Datos personajes BD:', personajes.value);
-
-  // 2. Crear el mapa
-  const map = L.map('map').setView([-16.2902, -63.5887], 5);
-  map.setMaxBounds([
-    [-22.9, -70.0],
-    [-9.5, -57.5]
-  ]);
-  map.setMinZoom(5);
-  map.setMaxZoom(10);
-
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© OpenStreetMap contributors'
-  }).addTo(map);
-
-/*
-
-  // 3. Mostrar marcadores combinando el vector `hechos` y los datos de la BD
-  hechos.forEach((hecho, i) => {
-    const personaje = personajes.value[i]; // ← CORRECTO: usar personajes.value
-    if (personaje) {
-      L.marker([hecho.lat, hecho.lng]).addTo(map)
-        .bindPopup(`<strong>${personaje.nombre}</strong><br>${personaje.descripcion}`);
-    }
-  });
-
-  */
-
-   // 3.1. Mostrar marcadores combinando el vector `hechos` y los datos de la BD
-   console.log("AAAAAAAAAAA SERVEEEER: ", personajes.value);
-personajes.value.forEach(personaje => {
+  personajes.value.forEach(personaje => {
     L.marker([personaje.lat, personaje.lng]).addTo(map)
       .bindPopup(`<strong>${personaje.nombre}</strong><br>${personaje.descripcion}`)
-  });
+  })
 
-
-  // 4. Carousel de Bootstrap (puede estar aquí también)
-  const el = document.querySelector('#carouselExample');
-  if (el) new bootstrap.Carousel(el, { interval: 5000 });
-});
+  // Inicializar carrusel Bootstrap
+  const el = document.querySelector('#carouselExample')
+  if (el) new bootstrap.Carousel(el, { interval: 5000 })
+})
 
 
 </script>
@@ -309,29 +141,35 @@ personajes.value.forEach(personaje => {
 
 <template>
   <div class="container mt-4">
-    <h1 class="text-center mb-4">Bicentenario Bolivia</h1>
+    <h1 id="lbBicen" class="text-center mb-4">Bicentenario Bolivia</h1>
     <h1 class="text-center mapa">Mapa Hechos Historicos</h1>
-    <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+
+<div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-indicators">
-        <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="0" class="active"></button>
-        <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="1"></button>
-        <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="2"></button>
-        <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="3"></button>
-      </div>
+  <button
+    v-for="(img, index) in imagenesCarrusel"
+    :key="index"
+    type="button"
+    data-bs-target="#carouselExample"
+    :data-bs-slide-to="index"
+    :class="{ active: index === 0 }"
+    aria-current="true"
+    :aria-label="'Slide ' + (index + 1)">
+  </button>
+</div>
+
       <div class="carousel-inner rounded">
-        <div class="carousel-item active">
-          <img src="https://i.pinimg.com/736x/ec/45/7f/ec457f7648d5aa0c33e18f86f47da3fa.jpg" class="d-block w-100" alt="Imágen 1"/>
-        </div>
-        <div class="carousel-item">
-          <img src="https://i.pinimg.com/736x/2e/12/db/2e12dba4c994f7f067b9e9f255d752f1.jpg" class="d-block w-100" alt="Imágen 2"/>
-        </div>
-        <div class="carousel-item">
-          <img src="https://i.pinimg.com/736x/aa/e9/8f/aae98fd8eea3965650436e9578429927.jpg" class="d-block w-100" alt="Imágen 3"/>
-        </div>
-        <div class="carousel-item">
-          <img src="/images/I1.jpg" class="d-block w-100" alt="Imágen 4"/>
-        </div>
-      </div>
+  <div
+    class="carousel-item"
+    v-for="(img, index) in imagenesCarrusel"
+    :class="{ active: index === 0 }"
+    :key="img"
+  >
+    <img :src="img" class="d-block w-100" :alt="'Imagen ' + (index + 1)" />
+  </div>
+</div>
+
+
       <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
         <span class="carousel-control-prev-icon"></span>
       </button>
@@ -339,6 +177,18 @@ personajes.value.forEach(personaje => {
         <span class="carousel-control-next-icon"></span>
       </button>
     </div>
+
+<div class="text-center mt-3 mb-4" v-if="isAdmin">
+  <button class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#modalAgregarImagen">
+    Agregar imagen
+  </button>
+  <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalBorrarImagen">
+  Borrar imagen
+</button>
+</div>
+
+
+
     <!-- div class para el leaflet map -->
     <div id="map" style="height: 500px;"></div>
     <h2 class="text-center mt-5 LT">Línea de Tiempo Histórica</h2>
@@ -348,7 +198,67 @@ personajes.value.forEach(personaje => {
     <!-- <LineaDeTiempo /> -->
 
     <!-- ............................ -->
+
+  <!-- Modal Agregar Imagen -->
+<div class="modal fade" id="modalAgregarImagen" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabel">Agregar nueva imagen al carrusel</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <label for="nuevaImagen" class="form-label">URL de la imagen:</label>
+        <input v-model="nuevaImagen" type="text" id="nuevaImagen" class="form-control" placeholder="https://...">
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button class="btn btn-primary" @click="agregarImagen">Agregar</button>
+      </div>
+    </div>
   </div>
+</div>
+
+
+
+<!-- Modal Borrar Imagen -->
+<div class="modal fade" id="modalBorrarImagen" tabindex="-1" aria-labelledby="modalBorrarLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalBorrarLabel">Borrar imagen del carrusel</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <p>Seleccione la imagen que desea eliminar:</p>
+        <select v-model="indiceAEliminar" class="form-select">
+  <option disabled value="">Seleccione una imagen</option>
+  <option v-for="(img, index) in imagenesCarrusel" :key="index" :value="index">
+    Imagen {{ index + 1 }} - {{ img }}
+  </option>
+</select>
+
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button class="btn btn-danger" @click="borrarImagen">Borrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- <div v-else class="text-center p-5 bg-light border rounded">
+  <h2 class="mb-3">¡Bienvenido a la línea de tiempo histórica de Bolivia!</h2>
+  <p>Explora los hechos más importantes del país a través de un mapa interactivo y un carrusel visual.</p>
+  <p class="fw-bold">Para acceder a todas las funcionalidades, por favor inicia sesión o regístrate.</p>
+</div> -->
+
+</div>
+
+    
+
 
 </template>
 <style>

@@ -8,6 +8,7 @@ import HechosView from '../views/Hechos.vue';
 import AboutView from '../views/AboutView.vue';
 import PersonajeDetalle from '../views/PersonajeDetalle.vue';
 import CiudadesDetalle from '../views/CiudadesDetalle.vue';
+import HechoDetalle from '../views/HechoDetalle.vue';
 
 const routes = [
   { path: '/register', name: 'Register', component: Register },
@@ -19,8 +20,8 @@ const routes = [
   { path: '/hechos', name: 'Hechos', component: HechosView, meta: { requiresAuth: true } },
   { path: '/aboutview', name: 'About', component: AboutView },
   { path: '/personaje/:id', name: 'PersonajeDetalle', component: PersonajeDetalle },
-{ path: '/ciudades/:id', name: 'CiudadesDetalle', component: CiudadesDetalle}
-
+{ path: '/ciudades/:id', name: 'CiudadesDetalle', component: CiudadesDetalle},
+{ path: '/hechos/:id', name: 'HechoDetalle', component: HechoDetalle}
 ];
 
 const router = createRouter({ history: createWebHistory(), routes });

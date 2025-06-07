@@ -19,7 +19,12 @@ const hechoRoutes    = require('./routes/hechos');
 const personajeRoutes= require('./routes/personajes');
 const authRoutes     = require('./routes/auth');
 const fuenteRoutes    = require('./routes/fuentes');
+
+const rolRoutes = require('./routes/rolRoutes');
+
 const cors           = require('cors');
+
+
 
 const app = express();
 app.use(cors());
@@ -29,5 +34,7 @@ app.use('/api/ciudades',   ciudadRoutes);
 app.use('/api/hechos',     hechoRoutes);
 app.use('/api/personajes', personajeRoutes);
 app.use('/api/auth',         authRoutes);
+
+app.use('/api', rolRoutes);
 
 module.exports = app;

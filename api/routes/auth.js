@@ -127,15 +127,15 @@ router.post('/login', async (req, res) => {
 
   try {
     // 2️⃣ Llamamos al servicio de login
-    const { token } = await AuthService.login({ username, contrasenia });
-    return res.json({ token });
+    const { token, user } = await AuthService.login({ username, contrasenia });
+    return res.json({ token, user });
   } catch (e) {
     // 3️⃣ Errores de usuario no encontrado o password inválida
     return res
       .status(400)
       .json({ error: e.message });
   }
-});
-
+}
+);
 module.exports = router;
 

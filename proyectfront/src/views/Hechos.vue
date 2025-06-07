@@ -11,7 +11,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="p in personajes" :key="p.id">
+          <tr v-for="p in personajes" :key="p.id"@click="$router.push(`/hechos/${p.id}`)"
+  style="cursor: pointer">
             <td>{{ p.nombre }}</td>
             <td>{{ p.descripcion }}</td>
             <td>{{ formatDate(p.fechaInicio) }}</td>

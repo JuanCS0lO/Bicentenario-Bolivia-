@@ -1,51 +1,50 @@
-.acciones {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  
-  .enlaces {
-    justify-content: center;
-    margin-bottom: 1rem;
-  }<!-- src/views/PersonajeDetalle.vue -->
 <template>
-  <div class="personaje-container">
+  <div class="hecho-container">
     <!-- Header con gradiente -->
-    <div class="personaje-header">
-      <h1>{{ personaje?.nombre }} {{ personaje?.ap_pat }}</h1>
-      <p v-if="personaje?.seudonimo" class="seudonimo">"{{ personaje?.seudonimo }}"</p>
+    <div class="hecho-header">
+      <h1>{{ hecho?.nombre || 'Hecho Histórico' }}</h1>
+      <p v-if="hecho?.fecha" class="fecha">"{{ formatDate(hecho?.fecha) }}"</p>
     </div>
 
     <!-- Contenido principal -->
-    <div class="personaje-content">
-      <div class="personaje-card">
-        <!-- Imagen del personaje -->
+    <div class="hecho-content">
+      <div class="hecho-card">
+        <!-- Imagen del hecho histórico -->
         <div class="imagen-container">
           <img 
-            :src="personaje?.imagen" 
-            :alt="`Retrato de ${personaje?.nombre} ${personaje?.ap_pat}`" 
-            class="personaje-foto"
+            :src="hecho?.imagen || '/api/placeholder/400/300'" 
+            :alt="`Imagen de ${hecho?.nombre}`" 
+            class="hecho-foto"
             @error="handleImageError"
           />
         </div>
 
-        <!-- Información del personaje -->
+        <!-- Información del hecho -->
         <div class="info-container">
           <div class="info-section">
-            <h3>Biografía</h3>
-            <p class="descripcion">{{ personaje?.descripcion || 'Información no disponible' }}</p>
+            <h3>Descripción</h3>
+            <p class="descripcion">{{ hecho?.descripcion || 'Información no disponible' }}</p>
           </div>
 
-          <!-- Datos adicionales si existen -->
-          <div v-if="personaje?.fecha_nacimiento || personaje?.lugar_nacimiento" class="info-section">
-            <h3>Datos Personales</h3>
+          <!-- Datos adicionales -->
+          <div v-if="hecho?.lat || hecho?.lng || hecho?.fecha || hecho?.ubicacion" class="info-section">
+            <h3>Datos del Hecho</h3>
             <div class="datos-grid">
-              <div v-if="personaje?.fecha_nacimiento" class="dato-item">
-                <span class="dato-label">Nacimiento:</span>
-                <span class="dato-valor">{{ formatDate(personaje.fecha_nacimiento) }}</span>
+              <div v-if="hecho?.fecha" class="dato-item">
+                <span class="dato-label">Fecha:</span>
+                <span class="dato-valor">{{ formatDate(hecho.fecha) }}</span>
               </div>
-              <div v-if="personaje?.lugar_nacimiento" class="dato-item">
-                <span class="dato-label">Lugar:</span>
-                <span class="dato-valor">{{ personaje.lugar_nacimiento }}</span>
+              <div v-if="hecho?.ubicacion" class="dato-item">
+                <span class="dato-label">Ubicación:</span>
+                <span class="dato-valor">{{ hecho.ubicacion }}</span>
+              </div>
+              <div v-if="hecho?.lat && hecho?.lng" class="dato-item">
+                <span class="dato-label">Coordenadas:</span>
+                <span class="dato-valor">Lat {{ hecho.lat }}, Lng {{ hecho.lng }}</span>
+              </div>
+              <div v-if="hecho?.periodo" class="dato-item">
+                <span class="dato-label">Período:</span>
+                <span class="dato-valor">{{ hecho.periodo }}</span>
               </div>
             </div>
           </div>
@@ -54,8 +53,8 @@
           <div class="acciones">
             <div class="enlaces">
               <a 
-                v-if="personaje?.linkRef" 
-                :href="personaje.linkRef" 
+                v-if="hecho?.linkRef" 
+                :href="hecho.linkRef" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 class="btn-link"
@@ -63,13 +62,13 @@
                 📖 Más información
               </a>
               <a 
-                v-if="personaje?.sitioWeb" 
-                :href="personaje.sitioWeb" 
+                v-if="hecho?.lat && hecho?.lng" 
+                :href="`https://www.google.com/maps?q=${hecho.lat},${hecho.lng}`" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 class="btn-link"
               >
-                🌐 Sitio oficial
+                🗺️ Ver en mapa
               </a>
             </div>
             
@@ -84,34 +83,34 @@
     <!-- Debug info (remover en producción) -->
     <div v-if="showDebug" class="debug-section">
       <h4>Información de Debug:</h4>
-      <pre>{{ personaje }}</pre>
+      <pre>{{ hecho }}</pre>
     </div>
   </div>
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import api from '../services/api'
 
 const route = useRoute()
-const personaje = ref(null)
+const hecho = ref(null)
 const showDebug = ref(false) // Cambiar a true para mostrar debug
 
 onMounted(async () => {
-  const id = route.params.id
+  const { id } = route.params
   try {
-    const { data } = await api.get(`/personajes/${id}`)
-    personaje.value = data
-    console.log("FOTITO PIPIPI FOTITO:", personaje.value.imagen)
+    const resp = await api.get(`/hechos/${id}`)
+    hecho.value = resp.data
+    console.log("Hecho cargado:", hecho.value)
   } catch (error) {
-    console.error('Error cargando personaje:', error)
+    console.error('Error cargando hecho histórico:', error)
   }
 })
 
 const handleImageError = (event) => {
   // Imagen placeholder si falla la carga
-  event.target.src = '/api/placeholder/300/400'
+  event.target.src = '/api/placeholder/400/300'
 }
 
 const formatDate = (dateString) => {
@@ -127,14 +126,14 @@ const formatDate = (dateString) => {
 
 <style scoped>
 /* Contenedor principal */
-.personaje-container {
+.hecho-container {
   min-height: 100vh;
   background-color: #f5f5f5;
   padding-bottom: 2rem;
 }
 
 /* Header con gradiente similar al HTML base */
-.personaje-header {
+.hecho-header {
   background: linear-gradient(to right, #8b0000, #b22222);
   color: white;
   text-align: center;
@@ -143,14 +142,14 @@ const formatDate = (dateString) => {
   margin-bottom: 2rem;
 }
 
-.personaje-header h1 {
+.hecho-header h1 {
   font-size: 2.5rem;
   margin-bottom: 0.5rem;
   font-weight: bold;
   text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
 }
 
-.seudonimo {
+.fecha {
   font-size: 1.3rem;
   font-style: italic;
   opacity: 0.9;
@@ -158,13 +157,13 @@ const formatDate = (dateString) => {
 }
 
 /* Contenido principal */
-.personaje-content {
+.hecho-content {
   max-width: 1000px;
   margin: 0 auto;
   padding: 0 1rem;
 }
 
-.personaje-card {
+.hecho-card {
   background: white;
   border-radius: 12px;
   box-shadow: 0 8px 25px rgba(0,0,0,0.15);
@@ -196,7 +195,7 @@ const formatDate = (dateString) => {
   z-index: 1;
 }
 
-.personaje-foto {
+.hecho-foto {
   max-width: 100%;
   max-height: 400px;
   width: auto;
@@ -209,11 +208,11 @@ const formatDate = (dateString) => {
   transition: transform 0.3s ease;
 }
 
-.personaje-foto:hover {
+.hecho-foto:hover {
   transform: scale(1.02);
 }
 
-/* Información del personaje */
+/* Información del hecho */
 .info-container {
   padding: 2.5rem;
   display: flex;
@@ -347,15 +346,15 @@ const formatDate = (dateString) => {
 
 /* Responsive */
 @media screen and (max-width: 768px) {
-  .personaje-header h1 {
+  .hecho-header h1 {
     font-size: 2rem;
   }
   
-  .seudonimo {
+  .fecha {
     font-size: 1.1rem;
   }
   
-  .personaje-card {
+  .hecho-card {
     grid-template-columns: 1fr;
     text-align: center;
   }
@@ -364,7 +363,7 @@ const formatDate = (dateString) => {
     padding: 1.5rem;
   }
   
-  .personaje-foto {
+  .hecho-foto {
     max-height: 300px;
   }
   
@@ -383,18 +382,28 @@ const formatDate = (dateString) => {
     margin-bottom: 0.5rem;
     min-width: auto;
   }
+  
+  .acciones {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .enlaces {
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
 }
 
 @media screen and (max-width: 480px) {
-  .personaje-header {
+  .hecho-header {
     padding: 2rem 1rem 1.5rem;
   }
   
-  .personaje-header h1 {
+  .hecho-header h1 {
     font-size: 1.7rem;
   }
   
-  .personaje-content {
+  .hecho-content {
     padding: 0 0.5rem;
   }
   

@@ -22,6 +22,29 @@
           <label for="password" class="form-label">Contraseña</label>
           <input v-model="password" type="password" id="password" class="form-control" required />
         </div>
+      
+      
+      <!-- <div class="mb-3">
+        <label for="role" class="form-label">Rol</label>
+        <select v-model="rol" id="role" class="form-select" required>
+          <option value="" disabled selected>Seleccione un rol</option>
+          <option value="2">Usuario</option>
+          <option value="1">Administrador</option>
+        </select>
+      </div> -->
+
+      <!-- ComboBox dinámico para seleccionar el rol -->
+      <div class="mb-3">
+        <label for="role" class="form-label">Rol</label>
+        <select v-model="rol" id="role" class="form-select" required>
+          <option value="" disabled selected>Seleccione un rol</option>
+          <option v-for="item in roles" :key="item.id_rol" :value="item.id_rol">
+            {{ item.tipo }}
+          </option>
+        </select>
+      </div>
+
+
         <button type="submit" class="btn btn-success w-100">Registrarse</button>
         <div v-if="error" class="alert alert-danger mt-3">{{ error }}</div>
       </form>
@@ -30,18 +53,31 @@
   <script setup>
   import { ref } from 'vue'
   import api from '../services/api'
+  import {onMounted } from 'vue'
   import { useRouter } from 'vue-router'
+  import axios from 'axios'
+
   const nombre = ref(''); 
   const ap_p = ref(''); 
   const ap_m = ref('');
   const username = ref('');
   const password = ref('');
+  const rol = ref('') // nueva variable para el combo box
+  const roles = ref([])
   const error = ref(null)
   const router = useRouter()
+onMounted(async () => {
+  try {
+    const res = await axios.get('http://localhost:3000/api/roles')
+    roles.value = res.data
+  } catch (err) {
+    console.error('Error cargando roles:', err)
+  }
+})
   async function register() {
     error.value = null
     try {
-      await api.post('/auth/register', { nombre: nombre.value,ap_pat: ap_p.value, ap_mat: ap_m.value, username: username.value, contrasenia: password.value})
+      await api.post('/auth/register', { nombre: nombre.value,ap_pat: ap_p.value, ap_mat: ap_m.value, username: username.value, contrasenia: password.value, rol: rol.value})
       router.push('/login')
     } catch (e) {
       error.value = e.response?.data?.message || 'Error al registrar'

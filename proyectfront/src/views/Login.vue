@@ -26,9 +26,19 @@
     error.value = null
     try {
       const { data } = await api.post('/auth/login', { username: username.value, contrasenia: contrasenia.value })
+ 
       auth.setToken(data.token)
+
+     if (data.user) {
+    localStorage.setItem('rol', data.user.id_rol);
+    localStorage.setItem('username', data.user.username);
+    localStorage.setItem('userId', data.user.idusuario);
+  }
       router.push('/')
     } catch (e) {
+       
+      console.error('Error en login😭:', e);
+
       error.value = e.response?.data?.message || 'Error en inicio de sesión'
     }
   }

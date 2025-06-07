@@ -46,7 +46,7 @@ const UsuarioDTO = require('../dto/usuario.dto');
 require('dotenv').config();
 
 class AuthService {
-  static async register({ nombre, ap_pat, ap_mat, username, contrasenia }) {
+  static async register({ nombre, ap_pat, ap_mat, username, contrasenia, rol}) {
     // 1) hasheo de password
     const hash = await bcrypt.hash(contrasenia, 10);
     // 2) inserción en BD
@@ -54,7 +54,7 @@ class AuthService {
       `INSERT INTO usuarios (nombre, ap_pat, ap_mat, username, contrasenia, rol_id_rol)
        VALUES ($1, $2, $3, $4, $5, $6)
        RETURNING idusuario, nombre, ap_pat, ap_mat, username`,
-      [nombre, ap_pat, ap_mat, username, hash, 2]
+      [nombre, ap_pat, ap_mat, username, hash, rol]
     );
     // 3) devolvemos DTO (sin contrasenia)
     return new UsuarioDTO(res.rows[0]);
@@ -72,9 +72,23 @@ class AuthService {
     const ok = await bcrypt.compare(contrasenia, user.contrasenia);
     if (!ok) throw new Error('Contraseña inválida');
     // 3) firmamos JWT
-    const payload = { idUsuario: user.idusuario, username: user.username };
+    //const payload = { idUsuario: user.idusuario, username: user.username };
+    const payload = {
+    idUsuario: user.idusuario,
+    username: user.username,
+    id_rol: user.rol_id_rol 
+  };
     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '2h' });
-    return { token };
+    //return { token };
+
+    return {
+    token,
+    user: {
+      idusuario: user.idusuario,
+      username: user.username,
+      id_rol: user.rol_id_rol
+    }
+  };
   }
 
   static async getUserById(id) {
@@ -87,6 +101,12 @@ class AuthService {
     if (res.rowCount === 0) return null;
     return new UsuarioDTO(res.rows[0]);
   }
+
+  static async getAllRoles() {
+  const res = await db.query('SELECT * FROM Rol');
+  return res.rows; // devuelve un array de objetos con ID_Rol y Tipo
+}
+
 }
 
 module.exports = AuthService;
